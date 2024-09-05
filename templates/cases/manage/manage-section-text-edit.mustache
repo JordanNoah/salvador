@@ -1,0 +1,33 @@
+<div class="case-manage-section-edit row mt-3" id="section_{{id}}">
+    <input type="hidden" id="sectionid_{{id}}" value="{{id}}">
+    <div class="col-md-12">
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-end py-2">
+                <div class="d-flex align-items-center">
+                    <button type="button" data-id="{{id}}" class="btn btn-outline-danger btn-sm mr-2 case-section-cancel-edit-button">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" data-id="{{id}}" class="btn btn-outline-primary btn-sm case-section-save-button">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="section-text-title" class="mb-3">
+                    <label for="title_{{id}}" class="text-secondary digitalta-required">
+                        {{#str}} case:section:title, local_digitalta {{/str}}
+                    </label>
+                    <input type="text" class="form-control" id="title_{{id}}" value="{{title}}">
+                    <input type="hidden" id="title_{{id}}_original" value="{{title}}">
+                </div>
+                <div id="section-text-content">
+                    <label for="content_{{id}}" class="text-secondary digitalta-required">
+                        {{#str}} case:section:content, local_digitalta {{/str}}
+                    </label>
+                    <textarea class="form-control" id="content_{{id}}" rows="15" cols="0">{{{content}}}</textarea>
+                    <input type="hidden" id="content_{{id}}_original" value="{{content}}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

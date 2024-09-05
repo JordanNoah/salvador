@@ -1,0 +1,12 @@
+{{< core/modal }}
+    {{$title}}
+        {{ modal.title }}
+    {{/title}}
+    {{$body}}
+        {{ modal.description }}
+    {{/body}}
+    {{$footer}}
+        <button type="button" data-action="cancel" class="btn btn-secondary">{{#str}} cancel {{/str}}</button>
+        <button type="button" data-action="save" class="btn btn-primary">{{#str}} confirm {{/str}}</button>
+    {{/footer}}
+{{/core/modal}}

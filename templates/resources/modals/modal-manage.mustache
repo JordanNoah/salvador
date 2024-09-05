@@ -1,0 +1,104 @@
+{{< core/modal }}
+    {{$title}}
+        {{#str}} resources:manage:add, local_digitalta {{/str}}
+    {{/title}}
+    {{$body}}
+        <form>
+            <input type="hidden" id="resource-manage-id" name="resource-manage-id" value="{{current.id}}" />
+            <input type="hidden" id="resource-manage-experienceid" name="resource-manage-experienceid" value="{{experienceid}}" />
+            <div class="d-flex flex-column">
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        {{#str}} resources:manage:add:description, local_digitalta {{/str}}
+                    </div>
+                    <div class="form-group col-md-12">
+                        {{#str}} general:required, local_digitalta {{/str}}
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        <label for="resource-manage-name" class="text-secondary digitalta-required">
+                            {{#str}} resources:manage:name, local_digitalta {{/str}}
+                        </label>
+                        <input type="text" value="{{current.name}}" class="form-control" id="resource-manage-name" name="resource-manage-name" placeholder="{{#str}} resources:manage:name:placeholder, local_digitalta {{/str}}" required />
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        <label for="resource-manage-path" class="text-secondary digitalta-required">
+                            {{#str}} resources:manage:path, local_digitalta {{/str}}
+                        </label>
+                        <input type="url" value="{{current.path}}" class="form-control" id="resource-manage-path" name="resource-manage-path" placeholder="{{#str}} resources:manage:path:placeholder, local_digitalta {{/str}}" pattern="https://.*" required />
+                        <input type="hidden" id="resource-manage-format" name="resource-manage-format" value="{{current.format}}" />
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        <div class="label-extra d-flex flex-row">
+                            <label for="resource-manage-description" class="text-secondary digitalta-required">{{#str}} resources:manage:description, local_digitalta {{/str}}</label>
+                        </div>
+                        <textarea class="form-control" id="resource-manage-description" name="resource-manage-description" placeholder="{{#str}} resources:manage:description:placeholder, local_digitalta {{/str}}" maxlength="300" rows="3" required>{{current.description}}</textarea> 
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-sm-6 col-12 mb-3">
+                        <label for="resource-manage-themes" class="text-secondary digitalta-required">
+                            {{#str}} resources:manage:themes, local_digitalta {{/str}}
+                        </label>
+                        <select multiple class="form-control d-none" id="resource-manage-themes" name="resource-manage-themes" required>
+                            {{#current.themes}}
+                                <option selected value="{{id}}" data-active-selection="true" class="text-capitalize selected">{{name}}</option>
+                            {{/current.themes}}
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-12 mb-3">
+                        <label for="resource-manage-tags" class="text-secondary">
+                            {{#str}} resources:manage:tags, local_digitalta {{/str}}
+                        </label>
+                        <select multiple class="form-control d-none" id="resource-manage-tags" name="resource-manage-tags">
+                            {{#tags}}
+                                <option selected value="{{id}}" data-active-selection="true" class="text-capitalize selected">{{name}}</option>
+                            {{/tags}}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-sm-6 col-12 mb-3">
+                        <label for="resource-manage-type" class="text-secondary digitalta-required">{{#str}} resources:manage:type, local_digitalta {{/str}}</label>
+                        <select class="form-control" id="resource-manage-type" name="resource-manage-type" required>
+                            {{#types}}
+                                {{#selected}}
+                                    <option value="{{key}}" selected>{{value}}</option>
+                                {{/selected}}
+                                {{^selected}}
+                                    <option value="{{key}}">{{value}}</option>
+                                {{/selected}}
+                            {{/types}}
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-12 mb-3">
+                        <label for="resource-manage-language" class="text-secondary digitalta-required">{{#str}} resources:manage:language, local_digitalta {{/str}}</label>
+                        <select class="form-control" id="resource-manage-language" name="resource-manage-language" required>
+                            {{#languages}}
+                                {{#selected}}
+                                    <option value="{{key}}" class="text-capitalize" selected>{{{value}}}</option>
+                                {{/selected}}
+                                {{^selected}}
+                                    <option value="{{key}}" class="text-capitalize">{{{value}}}</option>
+                                {{/selected}}
+                            {{/languages}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {{/body}}
+    {{$footer}}
+        {{#experienceid}}
+            <div class="d-flex flex-row justify-content-between w-100">
+                <button class="btn btn-link" id="changeToImportResource">Search for an existing resource</a>
+            </div>
+        {{/experienceid}}
+        <button type="submit" data-action="save" class="btn btn-primary">{{#str}} actions:import, local_digitalta {{/str}}</button>
+    {{/footer}}
+{{/ core/modal }}

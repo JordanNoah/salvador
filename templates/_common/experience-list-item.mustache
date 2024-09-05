@@ -1,0 +1,25 @@
+<div class="experience col-xl-4 col-sm-6 col-12">
+	<div
+		class="digitalta-hover-overlay-image ripple d-flex justify-content-center align-items-center"
+		data-mdb-ripple-init
+		data-mdb-ripple-color="light"
+	>
+		<a href="{{experiences.viewurl}}{{id}}">
+            <div class="w-100 p-0 m-0" style="aspect-ratio: 2 / 1;">
+                <img
+                    src="{{{pictureurl}}}"
+                    alt="{{title}}"
+                    class="experience-icon img-fluid w-100 h-100 rounded"
+                />
+            </div>
+		</a>
+	</div>
+    <div class="experience-overlay position-absolute digitalta-inner p-0 m-0">
+        {{#featured}}
+            <span class="badge bg-warning">{{#str}} experience:featured, local_digitalta {{/str}}</span>
+        {{/featured}}
+    </div>
+	<div class="my-3">
+		<h3 title="{{title}}" class="experience-name"><a href="{{experiences.viewurl}}{{id}}">{{title}}</a></h3>
+	</div>
+</div>

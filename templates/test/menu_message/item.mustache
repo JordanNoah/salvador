@@ -1,0 +1,17 @@
+<div class="list-tutoring-group-item d-flex justify-content-between align-items-center mb-2">
+    <div class="d-flex align-items-center">
+      <img src="{{profileimageurl}}" class="tutoring_profile_image rounded-circle mr-3" />
+      <div>
+        <h6 class="mb-0">{{firstname}} {{lastname}}</h6>
+        <small>{{#str}}tutoring:at_university, local_digitalta{{/str}} Salamanca</small>
+      </div>
+    </div>
+  <div class="tutoring-action-button">
+    <button class="btn btn-accept btn-sm mr-1" data-requestid="{{requestid}}" id="btn-accept-request">
+      <i class="fa fa-check"></i>
+    </button>
+    <button class="btn btn-reject btn-sm" data-requestid="{{requestid}}" id="btn-reject-request">
+      <i class="fa fa-times"></i>
+    </button>
+  </div>
+</div>

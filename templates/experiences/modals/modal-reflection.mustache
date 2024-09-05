@@ -1,0 +1,48 @@
+{{< core/modal }}
+    {{$title}}
+        {{ modal.title }}
+    {{/title}}
+    {{$body}}
+        <form>
+            <input type="hidden" id="experience-manage-id" name="experience-manage-id" value="{{experienceid}}" />
+            <div class="d-flex flex-column">
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        {{ modal.description }}
+                    </div>
+                    <div class="form-group col-md-12">
+                        {{#str}} general:required, local_digitalta {{/str}}
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        <label for="experience-manage-reflection-what-content" class="text-secondary digitalta-required">
+                            {{#str}} experience:reflection:what:description, local_digitalta {{/str}}
+                        </label>
+                        <textarea id="experience-manage-reflection-what-content" name="experience-manage-reflection-what-content" data-id="{{sections.what.id}}" data-groupid="{{sections.what.groupid}}" rows="10" class="editor form-control" required>{{{sections.what.content}}}</textarea>
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        <label for="experience-manage-reflection-so_what-content" class="text-secondary">
+                            {{#str}} experience:reflection:so_what:description, local_digitalta {{/str}}
+                        </label>
+                        <textarea id="experience-manage-reflection-so_what-content" name="experience-manage-reflection-so_what-content" data-id="{{sections.so_what.id}}" data-groupid="{{sections.so_what.groupid}}" rows="10" class="editor form-control">{{{sections.so_what.content}}}</textarea>
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        <label for="experience-manage-reflection-now_what-content" class="text-secondary">
+                            {{#str}} experience:reflection:now_what:description, local_digitalta {{/str}}
+                        </label>
+                        <textarea id="experience-manage-reflection-now_what-content" name="experience-manage-reflection-now_what-content" data-id="{{sections.now_what.id}}" data-groupid="{{sections.now_what.groupid}}" rows="10" class="editor form-control">{{{sections.now_what.content}}}</textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {{/body}}
+    {{$footer}}
+        <button type="button" data-action="cancel" class="btn btn-secondary">{{#str}} cancel {{/str}}</button>
+        <button type="button" data-action="save" class="btn btn-primary">{{#str}} save {{/str}}</button>
+    {{/footer}}
+{{/ core/modal }}

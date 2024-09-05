@@ -1,0 +1,36 @@
+{{< core/modal }}
+    {{$title}}
+        {{#str}} experience:resources:link, local_digitalta {{/str}}
+    {{/title}}
+    {{$body}}
+        <form>
+            <input type="hidden" id="experienceid" name="experienceid" value="{{experienceid}}" />
+            <input type="hidden" id="resourceid" name="resourceid" value="{{resourceid}}" />
+            <div class="d-flex flex-column">
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        {{#str}} experience:resources:link:description, local_digitalta {{/str}}
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="col-md-12">
+                        <p><i class="icon fa fa-file-text"></i> {{resourcename}}</p>
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        <div class="label-extra d-flex flex-row">
+                            <label for="experience-link-resource-description" class="text-secondary">{{#str}} experience:resources:description, local_digitalta {{/str}}</label>
+                        </div>
+                        <textarea class="form-control" id="experience-link-resource-description" name="experience-link-resource-description" maxlength="300" rows="3"></textarea> 
+                    </div>
+                </div>
+            </div>
+        </form>
+    {{/body}}
+    {{$footer}}
+        <div class="d-flex flex-row justify-content-between w-100">
+            <button type="submit" data-action="save" class="btn btn-primary">{{#str}} experience:resources:link, local_digitalta {{/str}}</button>
+        </div>
+    {{/footer}}
+{{/ core/modal }}

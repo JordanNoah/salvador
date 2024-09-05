@@ -1,0 +1,56 @@
+<div alt="{{name}}"
+    data-id="{{id}}"
+    data-weight="{{weight}}"
+    class="tag d-flex flex-row w-auto align-items-center mx-2"
+    onClick="location.href='{{tags.viewurl}}{{id}}';"
+    color="#000000"
+>
+    <div class="tag-img mr-2">
+        <i class="fa fa-tag"></i>
+    </div>
+    <p class="tag-name mb-0 text-lowercase">{{name}}</p>
+</div>
+
+<script>
+
+    function getDarkColor() {
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += Math.floor(Math.random() * 10);
+        }
+        return color;
+    }
+
+    function setRandomBackground() {
+        document.getElementsByClassName('tag').forEach((tag) => {tag.style.color = getDarkColor();});
+    }
+
+    function setVars() {
+        document.getElementsByClassName('tag').forEach((tag) => {
+            tag.style.setProperty('--color', 'color');
+            tag.style.setProperty('--size', 'font-size');
+        });
+    }
+
+    function setSize() {
+        document.getElementsByClassName('tag').forEach((tag) => {
+            var tagWeight = tag.getAttribute('data-weight');
+            if (tagWeight >= 80) {
+                tag.style.setProperty('font-size', '3.0em');
+            } else if (tagWeight >= 60) {
+                tag.style.setProperty('font-size', '2.5em');
+            } else if (tagWeight >= 40) {
+                tag.style.setProperty('font-size', '2.0em');
+            } else if (tagWeight >= 20) {
+                tag.style.setProperty('font-size', '1.5em');
+            } else {
+                tag.style.setProperty('font-size', '1.0em');
+            }
+        });
+    }
+
+    setVars();
+    setSize();
+    setRandomBackground();
+
+</script>

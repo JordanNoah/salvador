@@ -1,0 +1,11 @@
+<div class="collapse mt-3" id="commentsCollapse{{id}}">
+    <div>
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="{{#str}}reactions:add_new_comment, local_digitalta{{/str}}" aria-label="{{#str}}reactions:add_new_comment, local_digitalta{{/str}}" id="commentInput">
+            <div class="input-group-append">
+                <button data-action="send-comment" data-id={{id}} class="btn btn-primary" type="button"><i class="fa fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+    <ul class="list-group list-group-flush rounded-bottom mt-3" id="commentsList"></ul>
+</div>

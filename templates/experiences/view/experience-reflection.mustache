@@ -1,0 +1,69 @@
+<div class="mb-3 h-100">
+    <div>
+        <div class="flex d-flex mb-4 align-items-center" style="gap: .5em;">
+            {{#canedit}}
+                <h2 class="text-secondary my-0 digitalta-title">{{#str}} experience:reflection:title, local_digitalta {{/str}}</h2>
+                {{^experience.data.status}}
+                    <a href="#" id="manage-experience-reflection-button" title="{{#str}}experience:reflection:edit, local_digitalta{{/str}}" class="text-decoration-none">
+                        <i class="fa fa-plus-circle me-1" style="font-size: 1.5em;"></i>
+                    </a>
+                    <a href="#" id="experience-link-resource-button" title="{{#str}}experience:resources:link, local_digitalta{{/str}}" class="text-decoration-none">
+                        <i class="fa fa-file-text-o me-1" style="font-size: 1.5em;"></i>
+                    </a>
+                {{/experience.data.status}}
+            {{/canedit}}
+            {{^canedit}}
+                <h2 class="text-secondary mb-4 digitalta-title">{{#str}} concept:reflection, local_digitalta {{/str}}</h2>
+            {{/canedit}}
+        </div>
+        {{#canedit}}
+            <div class="text-justify mb-4">
+                <p>{{#str}} experience:reflection:description, local_digitalta {{/str}}</p>
+            </div>
+        {{/canedit}}
+        <div class="row">
+            <div class="col-12 col-md-3">
+                <div id="experience-reflection-tab" class="nav nav-pills mb-4 d-none d-sm-flex" role="tablist" aria-orientation="vertical">
+                    {{#experience}}
+                        {{#data}}
+                            {{#sections}}
+                                <button class="nav-link {{#active}}active{{/active}} col-4 col-md-12 m-0" id="reflection-{{groupname_simplified}}-tab" data-toggle="pill" data-target="#reflection-{{groupname_simplified}}" type="button" role="tab" aria-controls="reflection-{{groupname_simplified}}" aria-selected="{{#active}}true{{/active}}{{^active}}false{{/active}}">{{groupname}}</button>
+                            {{/sections}}
+                        {{/data}}
+                    {{/experience}}
+                    <button class="nav-link {{#active}}active{{/active}} col-4 col-md-12 m-0" id="reflection-resources-tab" data-toggle="pill" data-target="#reflection-resources" type="button" role="tab" aria-controls="reflection-resources" aria-selected="{{#active}}true{{/active}}{{^active}}false{{/active}}">{{#str}} concept:resources, local_digitalta {{/str}}</button>
+                </div>
+            </div>
+            <div class="col-12 col-md-9">
+                <div id="experience-reflection-tabcontent" class="tab-content">
+                    {{#experience}}
+                        {{#data}}
+                            {{#sections}}
+                                <div class="tab-pane text-justify mb-3 fade {{#active}}show active{{/active}}" id="reflection-{{groupname_simplified}}" role="tabpanel" aria-labelledby="reflection-{{groupname_simplified}}-tab">
+                                    <h3 class="d-sm-none">{{groupname}}</h3>
+                                    {{#content}}
+                                        {{{content}}}
+                                    {{/content}}
+                                    {{^content}}
+                                        {{#str}} experience:reflection:empty, local_digitalta {{/str}}
+                                    {{/content}}
+                                </div>
+                            {{/sections}}
+                        {{/data}}
+                    {{/experience}}
+                    <div class="tab-pane fade {{#active}}show active{{/active}}" id="reflection-resources" role="tabpanel" aria-labelledby="reflection-resources-tab">
+                        <h3 class="d-sm-none">{{#str}} concept:resources, local_digitalta {{/str}}</h3>
+                        {{#resources}}
+                            <div class="row">
+                                {{> local_digitalta/experiences/view/resource }}
+                            </div>
+                        {{/resources}}
+                        {{^resources}}
+                            {{#str}} experience:resources:empty, local_digitalta {{/str}}
+                        {{/resources}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

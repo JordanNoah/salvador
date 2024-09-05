@@ -1,0 +1,47 @@
+<div class="container-fluid col-12 col-sm-10 digitalta-profile">
+    <div class="row align-items-center">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <div class="card smooth-shadow-sm">
+                <div class="pt-20 card-img-top bg-primary"></div>
+                <div class="d-flex align-items-center justify-content-between pb-6 px-4 flex-wrap">
+                    <div class="d-flex align-items-center flex-wrap">
+                        <div class="avatar-xxl avatar-indicators avatar-online me-2 position-relative d-flex justify-content-end align-items-end mt-n10">
+                            <img src="{{user.imageurl}}" class="avatar-xxl rounded-circle border border-2" alt="{{#str}} general:avatar_alt, local_digitalta {{/str}}" />
+                        </div>
+                        <div class="lh-1">
+                            <h2 class="digitalta-title mb-0">{{user.name}}</h2>
+                            <p class="mb-0 d-block">{{user.email}}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center flex-wrap">
+                        <a href="{{user.editurl}}" class="btn btn-outline-secondary m-1 d-md-block">{{#str}} editmyprofile, core {{/str}}</a>
+                    </div>
+                </div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="experiences-tab" data-toggle="tab" href="#experiences" role="tab" aria-controls="experiences" aria-selected="true">
+                            {{#str}} concept:experiences, local_digitalta {{/str}}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="cases-tab" data-toggle="tab" href="#cases" role="tab" aria-controls="cases" aria-selected="false">
+                            {{#str}} concept:cases, local_digitalta {{/str}}
+                            </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="experiences" role="tabpanel" aria-labelledby="experiences-tab">
+                        <div class="card-list p-4">
+                            {{> local_digitalta/experiences/dashboard/experience-list}}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="cases" role="tabpanel" aria-labelledby="cases-tab">
+                        <div class="card-list p-4">
+                            {{> local_digitalta/cases/dashboard/case-list}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

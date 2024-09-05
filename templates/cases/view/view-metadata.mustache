@@ -1,0 +1,38 @@
+<div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="user-info d-flex align-items-center">
+            <a href="{{user.profileurl}}" class="perfil-link d-flex align-items-center text-muted text-decoration-none">
+                <img src="{{user.imageurl}}" class="rounded-circle mr-2" alt="{{#str}}general:avatar_alt, local_digitalta{{/str}}" style="width: 50px; height: 50px;">
+                <div class="text-dark">
+                    <strong>{{user.name}}</strong><br>
+                    <small><i class="fa fa-calendar me-1"></i>&nbsp;{{case.data.timecreated_string}}</small>
+                </div>
+            </a>
+        </div>
+        {{#case}} 
+        <div class="d-flex" style="gap: .5em;">
+            {{#canedit}}
+                <a href="{{manageurl}}{{data.id}}" class="shadow-none" id="manage-case-button" title="{{#str}}actions:edit, local_digitalta{{/str}}">
+                    <i class="fa fa-pencil fa-lg text-primary"></i>
+                </a>
+                <a href="{{deleteurl}}{{data.id}}" class="shadow-none" title="{{#str}}actions:delete, local_digitalta{{/str}}">
+                    <i class="fa fa-trash fa-lg text-danger"></i>
+                </a>
+            {{/canedit}}
+        </div>
+        {{/case}}
+    </div>
+    <div>
+        {{#case}}
+            {{#data}}
+                <div class="d-flex flex-row-reverse flex-wrap justify-content-between" style="gap: 1em;">
+                    {{> local_digitalta/_common/themetag-list}}
+                    {{#reactions}}
+                        {{> local_digitalta/reactions/reactions-buttons}}
+                    {{/reactions}}
+                </div>
+                {{> local_digitalta/reactions/comments-list}}
+            {{/data}}
+        {{/case}}
+    </div>
+</div>

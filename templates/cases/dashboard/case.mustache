@@ -1,0 +1,24 @@
+<div class="card h-100">
+    <div class="card-header">
+        <h3 class="text-secondary digitalta-title mb-4">
+            <a href="{{cases.viewurl}}{{id}}" class="case-card-title text-secondary">{{title}}</a>
+        </h3>
+        {{> local_digitalta/_common/metadata-user}}
+    </div>
+    <div class="card-body pb-0">
+    </div>
+    <div class="card-action-btns px-3 mb-4">
+        <div class="d-flex flex-wrap justify-content-end w-100" style="gap: 1em;">
+            {{> local_digitalta/_common/themetag-list}}
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex flex-row align-items-center justify-content-between">
+            {{#reactions}}
+                {{> local_digitalta/reactions/reactions-buttons}}
+            {{/reactions}}
+        </div>
+        {{> local_digitalta/reactions/comments-list}}
+    </div>
+</div>
+

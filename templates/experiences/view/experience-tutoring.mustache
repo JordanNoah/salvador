@@ -1,0 +1,38 @@
+<div class="mb-3 h-100">
+    <div class="flex d-flex mb-4 align-items-center" style="gap: .5em;">
+        <h2 class="text-secondary my-0 digitalta-title">{{#str}} experience:tutoring:title, local_digitalta {{/str}}</h2>
+        {{^experience.data.status}} 
+            {{#canedit}}
+                <span id="tutoring-requested" class="badge badge-pill badge-danger" data-action="see-requests"></span>
+            {{/canedit}}
+        {{/experience.data.status}}
+    </div>
+    {{#canedit}}
+        <div class="text-justify mb-4">
+            <p>{{#str}} experience:tutoring:description, local_digitalta {{/str}}</p>
+        </div>
+    {{/canedit}}
+    {{^experience.data.status}} 
+        {{#canedit}}
+            <div class="text-justify mb-4">
+                <div class="input-group mb-1">
+                    <input type="text" class="search-field__input" id="search-tutors-input" placeholder="{{#str}}experience:tutoring:placeholder, local_digitalta{{/str}}" aria-label="Search user" />
+                </div>
+                <a href="{{tutorrepourl}}" class="d-flex justify-content-end mb-1">{{#str}}experience:tutoring:see_all, local_digitalta{{/str}}</a>
+                <div id="search-tutors-result">
+                </div>
+                <div class="list-group mb-2">
+                    {{#tutorslist}}
+                        <!-- TODO: Tutor list -->
+                    {{/tutorslist}}
+                    {{^tutorslist}}
+                        <div class="text-center">
+                            <h6>{{#str}}experience:tutoring:notutors, local_digitalta{{/str}}</h6>
+                        </div>
+                    {{/tutorslist}}
+                </div>
+                <!-- TODO: Chat buttons and tutor comments -->
+            </div>
+        {{/canedit}}
+    {{/experience.data.status}}
+</div>

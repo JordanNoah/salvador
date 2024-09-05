@@ -1,0 +1,29 @@
+{{< core/modal }}
+    {{$title}}
+        {{#str}} experience:resources:link, local_digitalta {{/str}}
+    {{/title}}
+    {{$body}}
+        <form>
+            <input type="hidden" id="experienceid" name="experienceid" value="{{experienceid}}" />
+            <div class="d-flex flex-column">
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        {{#str}} experience:resources:link:description, local_digitalta {{/str}}
+                    </div>
+                </div>
+                <div id="resources-group" class="form-row mb-3">
+                    {{#resources}}
+                        <div class="col-md-6">
+                            <a href="#" class="experience-link-resource" data-id="{{id}}" data-action="save"><i class="icon fa fa-file-text"></i> {{name}}</a>
+                        </div>
+                    {{/resources}}
+                </div>
+            </div>
+        </form>
+    {{/body}}
+    {{$footer}}
+        <div class="d-flex flex-row justify-content-between w-100">
+            <button class="btn btn-link" id="changeToManageResource">{{#str}} experience:resources:add_new, local_digitalta {{/str}}</button>
+        </div>
+    {{/footer}}
+{{/ core/modal }}

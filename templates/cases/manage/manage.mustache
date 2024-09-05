@@ -1,0 +1,55 @@
+<div class="container-fluid col-12 col-sm-10 digitalta-cases">
+    <form id="case-manage-form" class="digitalta-form">
+        <input type="hidden" id="case-id" name="case-id" value="{{case.id}}">
+        <!--Section: Title-->
+        <section data-section-name="case-manage-title" class="mb-4">
+            <div class="container-fluid d-flex">
+                <div class="row align-items-justify w-100">
+                    <div class="col-12">
+                        <div class="digitalta-subtitle">OurCases</div>
+                        <h1 class="digitalta-title display-3">{{{title}}}</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Section: Metadata-->
+        <section data-section-name="case-manage-metadata" class="mb-4">
+            <div class="container-fluid d-flex">
+                <div class="row align-items-justify w-100">
+                    <div class="col-12">
+                        {{> local_digitalta/cases/manage/manage-metadata }}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Section: Body section-->
+        <section data-section-name="case-manage-body" class="mb-4">
+            <div class="container-fluid d-flex">
+                <div class="row align-items-justify w-100">
+                    <div id="case-manage-sections" class="col-12">
+                        {{#sections}}
+                            {{> local_digitalta/cases/manage/manage-section-text-view }}
+                        {{/sections}} 
+                    </div>
+                    <div class="col-12">
+                        {{>local_digitalta/cases/manage/section-add }}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Section: Add section-->
+        <section data-section-name="case-manage-add" class="mb-4">
+            <div class="container-fluid d-flex">
+                <div class="row align-items-justify w-100">
+                    <div class="col-12">
+                        <ul id="case-manage-data-error" class="text-danger" style="display: none;">
+                            <li id="case-manage-data-error-missing-required-fields" style="display: none;">{{#str}}general:required:missing, local_digitalta{{/str}}</li>
+                            <li id="case-manage-data-error-editing-sections" style="display: none;">{{#str}}case:save:error:editingsections, local_digitalta{{/str}}</li>
+                        </ul>
+                        <button type="button" id="case-save-button" class="btn btn-primary">{{#str}}case:save, local_digitalta{{/str}}</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+</div>

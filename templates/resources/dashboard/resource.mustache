@@ -1,0 +1,26 @@
+<div class="card h-100">
+    <div class="card-header d-flex flex-row align-items-center justify-content-between">
+        <div class="d-flex flex-row align-items-center">
+            <i class="icon fa fa-file-text mr-2"></i>
+            <h3 class="text-secondary digitalta-title m-0">{{name}}</h3>
+            <span class="badge badge-primary ml-2">{{type}}</span>
+        </div>
+    </div>
+    <div class="card-body pb-0">
+        {{{description}}}
+    </div>
+    <div class="card-action-btns px-3 mb-4">
+        <div class="d-flex flex-wrap justify-content-end w-100" style="gap: 1em;">
+            {{> local_digitalta/_common/themetag-list}}
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex flex-row align-items-center justify-content-between">
+            {{#reactions}}
+                {{> local_digitalta/reactions/reactions-buttons}}
+            {{/reactions}}
+            <a target="_blank" href="{{path}}">{{#str}} experience:resources:visit, local_digitalta {{/str}}</a>
+        </div>
+        {{> local_digitalta/reactions/comments-list}}
+    </div>
+</div>

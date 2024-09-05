@@ -1,0 +1,10 @@
+<div class="w-100 mb-3">
+    <div class="d-flex justify-content-start">
+        <h2 class="text-secondary mb-4 digitalta-title">{{#str}} concept:tags, local_digitalta {{/str}}</h2>
+    </div>
+    <div class="tags row p-0 mx-0 justify-content-center align-items-center gap-4 flex-wrap px-5">
+        {{#tags.data}}
+            {{> local_digitalta/tags/dashboard/tag }}
+        {{/tags.data}}
+    </div>
+</div>

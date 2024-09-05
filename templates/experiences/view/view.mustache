@@ -1,0 +1,39 @@
+<div class="container-fluid col-12 col-sm-10 digitalta-experience">
+    <input type="hidden" id="experience-id" value="{{experience.data.id}}">
+    <!--Section: Title-->
+    <section data-section-name="digitalta-experience-title" class="mb-5">
+        <div class="container-fluid d-flex">
+            <div class="row align-items-justify">
+                <div class="col-12">
+                    <div class="digitalta-subtitle">MyExperience</div>
+                    <h1 class="digitalta-title display-3">{{experience.data.title}}</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Section: Metadata-->
+    <section data-section-name="digitalta-experience-metadata" class="mb-5">
+        <div class="container-fluid d-flex">
+            <div class="row w-100">
+                <div class="col-12">
+                    {{> local_digitalta/experiences/view/experience-metadata}}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Section: Content-->
+    <section data-section-name="digitalta-experience-content">
+        <div class="container-fluid d-flex">
+            <div class="row w-100">
+                <!-- Tutoring -->
+                <div class="col-12" id="experience-tutoring">
+                    {{> local_digitalta/experiences/view/experience-tutoring}}
+                </div>
+                <!-- Reflection -->
+                <div class="col-12" id="experience-reflection">
+                    {{> local_digitalta/experiences/view/experience-reflection}}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,25 @@
+<div class="post-container">
+    <div class="post-img avatar avatar-xl mt-n7">
+      <img
+        src="{{user.imageurl}}"
+        alt="{{#str}}general:avatar_alt, local_digitalta{{/str}}"
+        class="rounded-circle border-4 border-white-color-40"
+      />
+    </div>
+    <form action="{{{createurl}}}" method="GET" class="d-flex flex-row w-100">
+        <div class="custom-input rounded-pill w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon bi-vector-pen" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M10.646.646a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1 0 .708l-1.902 1.902-.829 3.313a1.5 1.5 0 0 1-1.024 1.073L1.254 14.746 4.358 4.4A1.5 1.5 0 0 1 5.43 3.377l3.313-.828L10.646.646zm-1.8 2.908-3.173.793a.5.5 0 0 0-.358.342l-2.57 8.565 8.567-2.57a.5.5 0 0 0 .34-.357l.794-3.174-3.6-3.6z"></path>
+                <path fill-rule="evenodd" d="M2.832 13.228 8 9a1 1 0 1 0-1-1l-4.228 5.168-.026.086.086-.026z"></path>
+            </svg>
+            <input type="text" class="input" name="casetitle" placeholder="{{#str}}cases:manage:add:placeholder, local_digitalta{{/str}}" required />
+            <button type="submit" class="post-button rounded-pill">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                </svg>
+                <div>{{#str}}cases:manage:add:button, local_digitalta{{/str}}</div>
+            </button>
+        </div>
+    </form>
+  </div>

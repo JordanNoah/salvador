@@ -1,0 +1,48 @@
+<div class="card">
+<div class="card-header">
+
+  <div class="d-flex flex-row">
+    <div
+      data-tooltip-content="{{#str}}tutoring:view_tooltip, local_digitalta{{/str}}"
+      class="data-tooltip"
+    >
+      <i class="fa fa-question"></i>
+    </div>
+    <h2>{{#str}}tutoring:title, local_digitalta{{/str}}</h2>
+  </div>
+</div>
+  <div class="card-body">
+    <div class="">
+      <div class="input-group mb-1">
+        <input
+          type="text"
+          class="search-field__input"
+          placeholder="Search user to ask tutoring..."
+          aria-label="Search user"
+        />
+      </div>
+      <a href="#" class="d-flex justify-content-end mb-1">{{#str}}experience:tutoring:see_all, local_digitalta{{/str}}</a>
+
+    {{^hideBack}}
+      <button class="btn btn-light" id="back-menu">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+    {{/hideBack}}
+    {{#hideBack}}
+      <button class="btn btn-light" id="back-menu-experience">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+    {{/hideBack}}
+      
+      <div class="d-flex align-items-center mb-2">
+        <h5 class="mb-1">{{#str}}tutoring:request, local_digitalta{{/str}}</h5>
+        <span class="badge badge-danger ml-2">{{total}}</span>
+      </div>
+      <div class="list-group">
+      {{#requests}}
+      {{> local_digitalta/test/menu_message/item}}
+      {{/requests}}
+    </div>
+  </div>
+</div>
+</div>

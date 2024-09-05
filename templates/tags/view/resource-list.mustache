@@ -1,0 +1,17 @@
+<div class="w-100 mb-3">
+    <div class="d-flex justify-content-start">
+        <h2 class="text-secondary mb-4 digitalta-title">{{#str}} concept:resources, local_digitalta {{/str}}</h2>
+    </div>
+    <div class="resources row p-0 mx-0 justify-content-center">
+        {{#resources.data}}
+            
+        {{/resources.data}}
+        {{^resources.data}}
+            <div class="col-12">
+                <div class="alert alert-warning" role="alert">
+                    {{#str}} general:no_elements, local_digitalta {{/str}}
+                </div>
+            </div>
+        {{/resources.data}}
+    </div>
+</div>

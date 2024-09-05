@@ -1,0 +1,24 @@
+<div id="reaction-buttons" class="d-flex justify-content-start">
+    {{#likes}}
+        <button id="like-button" title="{{#str}}reactions:like, local_digitalta{{/str}}" data-action="like" data-component="{{component}}" data-id="{{id}}" class="btn btn-outline-primary btn-sm mr-2 {{#isactive}} active {{/isactive}}">
+            <i class="fa fa-thumbs-up"></i>
+            <span>{{#count}}{{.}}{{/count}}</span>
+        </button>
+    {{/likes}}
+    {{#dislikes}}
+        <button id="dislike-button" title="{{#str}}reactions:dislike, local_digitalta{{/str}}" data-action="dislike" data-component="{{component}}" data-id="{{id}}" class="btn btn-outline-danger btn-sm mr-2 {{#isactive}} active {{/isactive}}">
+            <i class="fa fa-thumbs-down"></i>
+        </button>
+    {{/dislikes}}
+    {{#comments}}
+        <button id="comment-button" title="{{#str}}reactions:comments, local_digitalta{{/str}}" data-action="view-comments" data-component="{{component}}" data-id="{{id}}" class="btn btn-outline-secondary btn-sm mr-2" data-toggle="collapse" data-target="#commentsCollapse{{id}}" aria-expanded="false" aria-controls="commentsCollapse{{id}}">
+            <i class="fa fa-comment"></i>
+            <span>{{#count}}{{.}}{{/count}}</span>
+        </button>
+    {{/comments}}
+    {{#reports}}
+        <button id="flag-button" title="{{#str}}reactions:report, local_digitalta{{/str}}" data-action="flag" data-component="{{component}}" data-id="{{id}}" class="btn btn-outline-warning btn-sm {{#isactive}} active {{/isactive}}">
+            <i class="fa fa-flag"></i>
+        </button>
+    {{/reports}}
+</div>

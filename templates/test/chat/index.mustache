@@ -1,0 +1,58 @@
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex flex-row align-items-center justify-content-between">
+      <div class="d-flex align-items-center">
+        <div
+          class="data-tooltip"
+          data-tooltip-content="{{#str}}tutoring:view_tooltip, local_digitalta{{/str}}"
+        >
+          <i class="fa fa-question"></i>
+        </div>
+        <h2>{{#str}}tutoring:title, local_digitalta{{/str}}</h2>
+      </div>
+      <span class="badge badge-pill badge-danger">2 Tutoring Requests</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="d-flex align-items-center">
+    {{^hideBack}}
+      <button class="btn btn-light" id="back-menu">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+    {{/hideBack}}
+    {{#hideBack}}
+      <button class="btn btn-light" id="back-menu-experience">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+    {{/hideBack}}
+    </div>
+    <div class="group-users">
+      <h2>{{group_chat_name}}</h2>
+
+      <div class="d-flex">
+        {{#user_list}} {{> local_digitalta/test/chat/users}} {{/user_list}}
+      </div>
+    </div>
+
+    <div class="chat-container rounded border border-primary p-3 mt-2">
+      <div class="messages" id="message-list">
+        <div class="loading">
+          <div class="d-flex flex-row justify-content-end mb-1">
+            <div class="skeleton skeleton-text"></div>
+          </div>
+          <div class="d-flex flex-row justify-content-start align-items-end mb-1">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton skeleton-text"></div>
+          </div>
+          <div class="d-flex flex-row justify-content-end mb-1">
+            <div class="skeleton skeleton-text"></div>
+          </div>
+          <div class="d-flex flex-row justify-content-end mb-1">
+            <div class="skeleton skeleton-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{> local_digitalta/test/chat/input}}
+  </div>
+</div>

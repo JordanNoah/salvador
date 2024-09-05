@@ -1,0 +1,13 @@
+<div class="w-100 mb-3">
+    <div class="d-flex justify-content-start">
+        <h2 class="text-secondary mb-4 digitalta-title">{{#str}} concept:themestags, local_digitalta {{/str}}</h2>
+    </div>
+    <div class="themes row p-0 mx-0 justify-content-center">
+        {{#themes.data}}
+            {{> local_digitalta/_common/theme-list-item}}
+        {{/themes.data}}
+    </div>
+    <div class="d-flex justify-content-end mt-3">
+        <a href="{{themes.allurl}}" class="btn btn-primary">{{#str}} general:see_more, local_digitalta {{/str}}</a>
+    </div>
+</div>

@@ -1,0 +1,158 @@
+<!-- Tutoring chat menu compoment -->
+
+{{> local_digitalta/test/menu_chat/index}}
+
+<!-- Tutoring second component -->
+
+{{> local_digitalta/test/menu_tutor/index}}
+
+
+<!-- Tutoring chat compoment -->
+
+{{> local_digitalta/test/chat/index}}
+
+<!-- Tutoring one component -->
+
+{{> local_digitalta/test/menu_message/index}}
+
+<!-- Calendar compoment -->
+
+{{> local_digitalta/test/calendar/index}}
+
+{{> local_digitalta/test/profile/edit-availability}}
+
+<style>
+input.search-field__input {
+  border-radius: 10px;
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  /* Remove background image and set background color */
+  background-color: #eeeeee;
+  /* Add SVG as background */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path d="M8.80644 7.75795C9.53266 6.76697 9.85793 5.53832 9.71717 4.31781C9.57641 3.09731 8.98 1.97496 8.04726 1.1753C7.11453 0.375644 5.91425 -0.042344 4.68657 0.00496084C3.45888 0.0522657 2.29433 0.561375 1.42589 1.43043C0.557455 2.29949 0.0491788 3.46441 0.00275248 4.69213C-0.0436739 5.91985 0.375173 7.11982 1.1755 8.05199C1.97582 8.98415 3.0986 9.57975 4.31921 9.71964C5.53981 9.85953 6.76823 9.53338 7.75869 8.80645H7.75794C7.77994 8.83645 7.80444 8.8652 7.83144 8.8927L10.7189 11.7802C10.8596 11.9209 11.0503 12 11.2493 12.0001C11.4483 12.0002 11.6391 11.9212 11.7798 11.7806C11.9205 11.6399 11.9996 11.4492 11.9997 11.2502C11.9998 11.0513 11.9208 10.8604 11.7802 10.7197L8.89269 7.8322C8.86589 7.80505 8.83706 7.78072 8.80644 7.75795ZM8.99994 4.87495C8.99994 5.41666 8.89324 5.95305 8.68594 6.45352C8.47864 6.95399 8.1748 7.40873 7.79176 7.79177C7.40871 8.17481 6.95398 8.47866 6.45351 8.68596C5.95304 8.89326 5.41664 8.99995 4.87494 8.99995C4.33324 8.99995 3.79684 8.89326 3.29637 8.68596C2.7959 8.47866 2.34117 8.17481 1.95813 7.79177C1.57508 7.40873 1.27124 6.95399 1.06394 6.45352C0.856637 5.95305 0.749941 5.41666 0.749941 4.87495C0.749941 3.78094 1.18454 2.73173 1.95813 1.95814C2.73171 1.18455 3.78092 0.749953 4.87494 0.749953C5.96896 0.749953 7.01817 1.18455 7.79176 1.95814C8.56534 2.73173 8.99994 3.78094 8.99994 4.87495Z" fill="%236A737B"/></svg>');
+  background-repeat: no-repeat;
+  background-position: left 10px center; /* Adjust position as needed */
+  padding-left: 40px; /* Maintain padding for text */
+  border: none;
+  box-shadow: none;
+  -webkit-appearance: none;
+}
+input.search-field__input:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: none; /* Remove default focus box shadow */
+  caret-color: #000; /* Set caret color (text cursor color) */
+}
+
+/* Accept Button */
+.tutoring-action-button button.btn.btn-accept {
+  color: #1382c5;
+  background-color: #fff;
+  border-color: #1382c5;
+}
+
+/* Reject Button */
+.tutoring-action-button button.btn.btn-reject {
+  color: #ca3120;
+  background-color: #fff;
+  border-color: #ca3120;
+}
+/* Chat Button */
+.socialize-button button.btn.btn-chat {
+  color: #ffffff;
+  background-color: #1382c5;
+  border-color: #1382c5;
+}
+/* Zoom Chat Button */
+.socialize-button button.btn.btn-zoom-call {
+  color: #ffffff;
+  background-color: #062f4a;
+  border-color: #062f4a;
+}
+
+/* Tutor calendar button */
+button.btn.btn-tutoring-tutor-calendar {
+  color: #1382C5;
+  background-color: #ffffff00;
+  border-color: #ffffff00;
+}
+
+button.btn.btn-tutoring-tutor-calendar:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+button.btn.btn-tutoring-tutor-calendar:active {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Positioning the button to the bottom-right of the image */
+.position-relative .btn-tutoring-tutor-calendar {
+  bottom: 0;
+  right: 0;
+  transform: translate(50%, 50%); /* Adjusts the position to overlap the bottom-right corner */
+}
+
+.tutoring_profile_image {
+  width: 60px;
+  height: 60px;
+}
+
+.list-tutoring-group-item {
+  position: relative;
+  display: block;
+  padding: .75rem 1.25rem;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, .125);
+}
+
+/* Tutoring chat css */
+
+.user-img-chat{
+  width: 60px;
+  height: 60px;
+}
+.group-users {
+  border-bottom: 1px solid rgba(0, 0, 0, .125);
+}
+.chat-tutor-img {
+  width: 40px;
+  height: 40px;
+}
+
+.chat-reply-box {
+    border: 2px solid #ccc; /* Example border */
+    background-color: #f9f9f9; /* Example background color */
+    width: 100%; /* Example width */
+    border-radius: 10px; /* Example border radius */
+}
+
+.custom-input {
+    border: none;
+    box-shadow: none;
+    background-color: transparent; /* Make the input background transparent */
+    padding: 0.375rem 0.75rem; /* Keep Bootstrap's default padding or adjust as needed */
+    color: #495057; /* Default text color, adjust as needed */
+}
+
+.custom-input:focus {
+    border-color: inherit; /* Inherits the border color, can adjust if needed */
+    box-shadow: none; /* Removes focus shadow */
+    background-color: transparent; /* Change background color on focus */
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    color: inherit; /* Inherits color from parent, adjust as needed */
+}
+
+.icon-button:focus, .icon-button:active {
+    outline: none;
+    box-shadow: none;
+}
+
+
+
+</style>

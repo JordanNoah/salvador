@@ -1,0 +1,54 @@
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex flex-row align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <div class="data-tooltip" data-tooltip-content="{{#str}}tutoring:view_tooltip, local_digitalta{{/str}}">
+                    <i class="fa fa-question"></i>
+                </div>
+                <h2>{{#str}}tutoring:title, local_digitalta{{/str}}</h2>
+            </div>
+            <span id="tutoring-requested" class="badge badge-pill badge-danger" data-action="see-requests"></span>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="">
+            <div class="input-group mb-1">
+                <input type="text" class="search-field__input" id="search-tutors-input" placeholder="Search user to ask tutoring..." aria-label="Search user" />
+            </div>
+            <a href="{{tutorrepourl}}" class="d-flex justify-content-end mb-1">{{#str}}experience:tutoring:see_all, local_digitalta{{/str}}</a>
+            <div id="search-tutors-result">
+            </div>
+            <div class="list-group mb-2">
+                {{#tutorslist}}
+                    {{> local_digitalta/test/menu_tutor/item}}
+                {{/tutorslist}}
+                {{^tutorslist}}
+                    <div class="text-center">
+                        <h6>{{#str}}experience:tutoring:notutors, local_digitalta{{/str}}</h6>
+                    </div>
+                {{/tutorslist}}
+            </div>
+            <div class="socialize-button mb-2">
+                <button class="btn btn-chat" id="btn-chat">
+                    <i class="fa fa-paper-plane"></i> Chat
+                </button>
+                {{#googlemeetcall}}
+                    <div class="d-flex justify-space-between">
+                        {{{button}}}
+                        {{#closecall}}
+                            <button class="btn btn-danger btn-sm mt-2" id="close-video-meeting" data-chatid="{{.}}">Close Call</button>
+                        {{/closecall}}
+                {{/googlemeetcall}}
+            </div>
+        </div>
+        <div class="tutor-comments">
+            <h4 class="tutor-comments-title">{{#str}}tutoring:tutor_comments, local_digitalta{{/str}}</h4>
+            <div class="d-flex align-items-end mb-2">
+                <textarea class="form-control flex-grow-1" rows="3" placeholder="Write your comment here..."></textarea>
+                <button type="button" class="btn btn-secondary ml-1">
+                    <i class="fa fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

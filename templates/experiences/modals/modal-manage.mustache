@@ -1,0 +1,93 @@
+{{< core/modal }}
+    {{$title}}
+        {{ modal.title }}
+    {{/title}}
+    {{$body}}
+        <form>
+            <input type="hidden" id="experience-manage-id" name="experience-manage-id" value="{{current.id}}" />
+            <div class="d-flex flex-column">
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        {{ modal.description }}
+                    </div>
+                    <div class="form-group col-md-12">
+                        {{#str}} general:required, local_digitalta {{/str}}
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        <label for="experience-manage-title" class="text-secondary digitalta-required">
+                            {{{ modal.sections.title.label }}}
+                        </label>
+                        <input type="text" value="{{current.title}}" class="form-control" id="experience-manage-title" name="experience-manage-title" placeholder="{{{ modal.sections.title.placeholder }}}" required />
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-sm-6 col-12 mb-3">
+                        <label for="experience-manage-visibility" class="text-secondary digitalta-required">
+                            {{{ modal.sections.visibility.label }}}
+                        </label>
+                        <select id="experience-manage-visibility" name="experience-manage-visibility" class="form-control" value="{{current.visible}}" required>
+                            {{#modal.visibility}}
+                                {{#selected}}
+                                    <option value="{{key}}" class="text-capitalize" selected>{{{value}}}</option>
+                                {{/selected}}
+                                {{^selected}}
+                                    <option value="{{key}}" class="text-capitalize">{{{value}}}</option>
+                                {{/selected}}
+                            {{/modal.visibility}}
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-12">
+                        <label for="experience-manage-lang" class="text-secondary digitalta-required">
+                            {{{ modal.sections.language.label }}}
+                        </label>
+                        <select id="experience-manage-lang" name="experience-manage-lang" class="form-control" value="{{current.lang}}" required>
+                            {{#modal.languages}}
+                                {{#selected}}
+                                    <option value="{{key}}" class="text-capitalize" selected>{{{value}}}</option>
+                                {{/selected}}
+                                {{^selected}}
+                                    <option value="{{key}}" class="text-capitalize">{{{value}}}</option>
+                                {{/selected}}
+                            {{/modal.languages}}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-sm-6 col-12 mb-3">
+                        <label for="experience-manage-themes" class="text-secondary digitalta-required">
+                            {{{ modal.sections.themes.label }}}
+                        </label>
+                        <select multiple class="form-control d-none" id="experience-manage-themes" name="experience-manage-themes" required>
+                            {{#current.themes}}
+                                <option selected value="{{id}}" data-active-selection="true" class="text-capitalize selected">{{name}}</option>
+                            {{/current.themes}}
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-12">
+                        <label for="experience-manage-tags" class="text-secondary">
+                            {{{ modal.sections.tags.label }}}
+                        </label>
+                        <select multiple class="form-control d-none" id="experience-manage-tags" name="experience-manage-tags">
+                            {{#current.tags}}
+                                <option selected value="{{id}}" data-active-selection="true" class="text-capitalize selected">{{name}}</option>
+                            {{/current.tags}}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-12">
+                        <label for="experience-manage-reflection-what-content" class="text-secondary digitalta-required">
+                            {{#str}} experience:reflection:what:description, local_digitalta {{/str}}
+                        </label>
+                        <textarea id="experience-manage-reflection-what-content" name="experience-manage-reflection-what-content" data-id="{{current.sections.what.id}}" data-groupid="{{current.sections.what.groupid}}" data-groupname="What?" class="form-control" rows="3" required>{{current.sections.what.content}}</textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {{/body}}
+    {{$footer}}
+        <button type="button" data-action="save" class="btn btn-primary">{{#str}} save {{/str}}</button>
+    {{/footer}}
+{{/ core/modal }}
