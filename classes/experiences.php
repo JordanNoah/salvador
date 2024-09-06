@@ -62,7 +62,7 @@ class Experiences
 
     /**
      * Get an experience by this id
-     * 
+     *
      * @param  int             $id The id of the experience
      * @param  bool            $extra_fields If true, it will return the extra fields
      * @return Experience|null The experience
@@ -75,7 +75,7 @@ class Experiences
 
     /**
      * Get experiences
-     * 
+     *
      * @param  array $filters The filters to apply
      * @param  bool  $extra_fields If true, it will return the extra fields
      * @return array The experiences
@@ -109,17 +109,23 @@ class Experiences
 
     /**
      * Get extra fields for experiences
-     * 
+     *
      * @param  Experience $experience The experience
      * @return object     The experience with extra fields
      */
     public static function get_extra_fields(Experience $experience)
     {
-        global $PAGE;
-        // Get the user data 
+        global $PAGE, $USER, $DB;
+        require_login();  // Asegúrate de que el usuario esté logueado
+
+// Establece el contexto, por ejemplo, el contexto del sistema
+        $context = \context_system::instance();
+        $PAGE->set_context($context);
+        // Get the user data
         $user = get_complete_user_data('id', $experience->userid);
         $user_picture = new \user_picture($user);
         $user_picture->size = 101;
+
         $experience->user = [
             'id' => $user->id,
             'name' => $user->firstname . " " . $user->lastname,
@@ -259,7 +265,7 @@ class Experiences
 
     /**
     * Prepare metadata record for database insertion.
-    * 
+    *
     * @param  object    $experience The experience object.
     * @return object    The prepared metadata record.
     * @throws Exception If the experience type is invalid.
@@ -281,7 +287,7 @@ class Experiences
 
     /**
      * Validate the metadata of an experience.
-     * 
+     *
      * @param  object $experience The experience object to check.
      */
     private static function validate_metadata(object $experience)
@@ -343,7 +349,7 @@ class Experiences
 
     /**
      * Toggles the status of an experience
-     * 
+     *
      * @param int $experienceid
      */
     public static function toggle_status($experienceid)
