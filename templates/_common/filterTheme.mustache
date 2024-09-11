@@ -1,0 +1,9 @@
+<div class="input-group-prepend">
+    <label class="input-group-text" for="inputGroupSelect01">Tema</label>
+</div>
+<select class="custom-select filterThemeSelect" id="filterThemes">
+    <option selected class="disabled">Choose...</option>
+    {{#themes}}
+        <option class="enable" value="{{name}}">{{name}}</option>
+    {{/themes}}
+</select>

@@ -1,0 +1,12 @@
+<div class="d-flex align-items-center flex-wrap h-100">
+    {{#filters}}
+    <div class="digitalta-tag-normal my-1" style="height: fit-content">
+        <span>
+            {{value}}
+        </span>
+        <span style="cursor: pointer" id="removeFilter" attr-filter="{{value}}" attr-type="{{type}}">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </span>
+    </div>
+    {{/filters}}
+</div>

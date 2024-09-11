@@ -101,7 +101,15 @@ $functions = [
         'requirelogin' => true,
         'ajax'        => true,
     ],
-
+    'local_digitalta_experiences_get_used_langs' => [
+        'classname' => 'external_experiences_get_used_langs',
+        'methodname'  => 'experiences_get_used_langs',
+        'classpath'   => 'local/digitalta/classes/webservices/experiences/external_experiences_get_used_langs.php',
+        'description' => 'Get all languages used in experiences',
+        'type'        => 'read',
+        'requirelogin' => true,
+        'ajax'        => true
+    ],
     // Files
     'local_digitalta_files_prepare_draft_area_html' => [
         'classname'   => 'external_files_prepare_draft_area_html',

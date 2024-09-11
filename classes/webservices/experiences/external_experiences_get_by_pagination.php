@@ -19,149 +19,156 @@ class external_experiences_get_by_pagination extends external_api
 
     public static function experiences_get_by_pagination($pagenumber, $filters) {
         global $DB, $CFG;
-        $filtersId = null;
+        $limit = 5;
+
+        $totalPages = 0;
         $filters = json_decode($filters, true);
 
         $experiences = array();
         if (count($filters) > 0) {
             $tags = [];
             $themes = [];
+            $authors = [];
             for ($i = 0; $i < count($filters); $i++) {
                 $filter = $filters[$i];
                 if ($filter["type"] == "tag"){
                     $tags[] = '"'.$filter["value"].'"';
-                }else{
+                }else if ($filter["type"] == "theme"){
                     $themes[] = '"'.$filter["value"].'"';
+                }else if ($filter["type"] == "author"){
+                    $authors[] = '"'.$filter["value"].'"';
                 }
             }
-
-            $themesToSearch = '(' . implode(', ', $themes) . ')';
-            $tagsToSearch = '(' . implode(', ', $tags) . ')';
-
-            $themesExperience = $DB->get_records_sql(
-                "SELECT * FROM mdl_digitalta_themes where name IN ".$themesToSearch
-            );
-
-            $tagsExperiences = $DB->get_records_sql(
-                "SELECT * FROM mdl_digitalta_tags where name IN ".$tagsToSearch
-            );
-
-            $tagsId = array_keys($tagsExperiences);
-            $themesId = array_keys($themesExperience);
 
             $havingSum = "";
 
-            for ($i = 0; $i < count($themesId); $i++) {
-                if (strlen($havingSum) == 0){
-                    $havingSum .= "HAVING SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themesId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
-                }else{
-                    $havingSum .= "SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themesId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+            if (count($themes) > 0){
+                $themesToSearch = '(' . implode(', ', $themes) . ')';
+                $themesExperience = $DB->get_records_sql(
+                    "SELECT * FROM mdl_digitalta_themes where name IN ".$themesToSearch
+                );
+                $themesId = array_keys($themesExperience);
+                for ($i = 0; $i < count($themesId); $i++) {
+                    if (strlen($havingSum) == 0){
+                        $havingSum .= "HAVING SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themesId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                    }else{
+                        $havingSum .= "SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themesId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                    }
                 }
             }
 
-            for ($i = 0; $i < count($tagsId); $i++) {
-                if (strlen($havingSum) == 0){
-                    $havingSum .= "HAVING SUM(CASE WHEN modifier = 2 AND modifierinstance = ".$tagsId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
-                }else{
-                    $havingSum .= "SUM(CASE WHEN modifier = 2 AND modifierinstance = ".$tagsId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+            if (count($tags) > 0){
+                $tagsToSearch = '(' . implode(', ', $tags) . ')';
+                $tagsExperiences = $DB->get_records_sql(
+                    "SELECT * FROM mdl_digitalta_tags where name IN ".$tagsToSearch
+                );
+                $tagsId = array_keys($tagsExperiences);
+                for ($i = 0; $i < count($tagsId); $i++) {
+                    if (strlen($havingSum) == 0){
+                        $havingSum .= "HAVING SUM(CASE WHEN modifier = 2 AND modifierinstance = ".$tagsId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                    }else{
+                        $havingSum .= "SUM(CASE WHEN modifier = 2 AND modifierinstance = ".$tagsId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                    }
                 }
             }
+
+            if(count($authors) > 0){
+                $authorsToSearch = '(' . implode(', ', $authors) . ')';
+                $authorsExperiences = $DB->get_records_sql(
+                    "SELECT * FROM mdl_user where id IN ".$authorsToSearch
+                );
+                $authorsId = array_keys($authorsExperiences);
+                for ($i = 0; $i < count($authorsId); $i++) {
+                    if (strlen($havingSum) == 0){
+                        $havingSum .= "HAVING SUM(CASE WHEN modifier = 3 AND modifierinstance = ".$authorsId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                    }else{
+                        $havingSum .= "SUM(CASE WHEN modifier = 3 AND modifierinstance = ".$authorsId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                    }
+                }
+            }
+
             $query = preg_replace('/\s+AND\s*$/', '', $havingSum);
 
             $contextDigitalTa = $DB->get_records_sql(
-                'WITH FilteredComponentInstances AS (
-                        SELECT componentinstance
-                            FROM mdl_digitalta_context
-                            GROUP BY componentinstance
-                                '.$query.'
-                            )
-                        SELECT
-                            componentinstance,
-                            GROUP_CONCAT(modifier) AS modifiers,
-                            GROUP_CONCAT(modifierinstance) AS modifierinstances
-                            FROM mdl_digitalta_context
-                            WHERE componentinstance IN (SELECT componentinstance FROM FilteredComponentInstances)
-                        GROUP BY componentinstance;'
+                'WITH FilteredComponentInstances AS ( SELECT componentinstance FROM mdl_digitalta_context GROUP BY componentinstance '.$query.' )
+                        SELECT componentinstance, GROUP_CONCAT(modifier) AS modifiers, GROUP_CONCAT(modifierinstance) AS modifierinstances FROM mdl_digitalta_context
+                            WHERE componentinstance IN (SELECT componentinstance FROM FilteredComponentInstances) GROUP BY componentinstance;'
             );
+
+            $totalRows = $DB->get_record_sql(
+                'WITH FilteredComponentInstances AS ( SELECT componentinstance FROM mdl_digitalta_context GROUP BY componentinstance '.$query.')
+                     SELECT COUNT(*) AS total_componentinstances FROM FilteredComponentInstances;'
+            )->total_componentinstances;
+
+            $totalPages = ceil($totalRows / $limit);
 
             $componentInstanceIds = array_keys($contextDigitalTa);
 
-            $componentsInstanceIdsToSearch = '(' . implode(', ', $componentInstanceIds) . ')';
-            $components = array_values($DB->get_records_sql(
-                'SELECT * FROM mdl_digitalta_experiences where id IN '.$componentsInstanceIdsToSearch
-            ));
+            if (count($componentInstanceIds) > 0){
+                $componentsInstanceIdsToSearch = '(' . implode(', ', $componentInstanceIds) . ')';
+                $components = array_values($DB->get_records_sql(
+                    'SELECT * FROM mdl_digitalta_experiences where id IN '.$componentsInstanceIdsToSearch
+                ));
 
-
-
-            for ($i = 0; $i < count($components); $i++) {
-                $experience = $components[$i];
-                $cleaned_experience = [
-                    "id" => $experience->id,
-                    "userid" => $experience->userid,
-                    "title" => $experience->title,
-                    "lang" => $experience->lang,
-                    "visible" => $experience->visible,
-                    "status" => $experience->status,
-                    "timecreated" => $experience->timecreated,
-                    "timemodified" => $experience->timemodified
-                ];
-                $experience_model = new \local_digitalta\Experience($cleaned_experience);
-                $x = \local_digitalta\Experiences::get_extra_fields($experience_model);
-
-                $sections = [];
-                foreach ($x->sections as $section) {
-                    $groupname = \local_digitalta\Sections::get_group($section->groupid)->name;
-                    list($section->groupname, $section->groupname_simplified) =
-                        local_digitalta_get_element_translation('section_group', $groupname);
-                    $section->content = strip_tags($section->content);
-                    $sections[$section->groupname_simplified] = $section;
-                }
-
-                $x->sections = $sections;
-
-                $experiences[] = $x;
+                $experiences = self::getExperiences($components);
             }
         }else{
             $components = array_values($DB->get_records_sql(
-                'SELECT * FROM mdl_digitalta_experiences'
+                'SELECT * FROM mdl_digitalta_experiences limit '.$limit.' offset '.(($pagenumber-1) * $limit)
             ));
 
-            for ($i = 0; $i < count($components); $i++) {
-                $experience = $components[$i];
-                $cleaned_experience = [
-                    "id" => $experience->id,
-                    "userid" => $experience->userid,
-                    "title" => $experience->title,
-                    "lang" => $experience->lang,
-                    "visible" => $experience->visible,
-                    "status" => $experience->status,
-                    "timecreated" => $experience->timecreated,
-                    "timemodified" => $experience->timemodified
-                ];
-                $experience_model = new \local_digitalta\Experience($cleaned_experience);
-                $x = \local_digitalta\Experiences::get_extra_fields($experience_model);
+            $totalRows = $DB->get_record_sql(
+                'SELECT COUNT(*) AS total  FROM mdl_digitalta_experiences'
+            )->total;
 
-                $sections = [];
-                foreach ($x->sections as $section) {
-                    $groupname = \local_digitalta\Sections::get_group($section->groupid)->name;
-                    list($section->groupname, $section->groupname_simplified) =
-                        local_digitalta_get_element_translation('section_group', $groupname);
-                    $section->content = strip_tags($section->content);
-                    $sections[$section->groupname_simplified] = $section;
-                }
+            $totalPages = ceil($totalRows / $limit);
 
-                $x->sections = $sections;
-                $experiences[] = $x;
-            }
+            $experiences = self::getExperiences($components);
         }
         return array(
+            'pagenumber' => $pagenumber,
             'data' => $experiences,
+            'pages' => $totalPages,
             'viewurl' => $CFG->wwwroot . '/local/digitalta/pages/experiences/view.php?id='
         );
     }
 
+    public static function getExperiences(array $components)
+    {
+        $experiences = array();
+        for ($i = 0; $i < count($components); $i++) {
+            $experience = $components[$i];
+            $cleaned_experience = [
+                "id" => $experience->id,
+                "userid" => $experience->userid,
+                "title" => $experience->title,
+                "lang" => $experience->lang,
+                "visible" => $experience->visible,
+                "status" => $experience->status,
+                "timecreated" => $experience->timecreated,
+                "timemodified" => $experience->timemodified
+            ];
+            $experience_model = new \local_digitalta\Experience($cleaned_experience);
+            $x = \local_digitalta\Experiences::get_extra_fields($experience_model);
+
+            $sections = [];
+            foreach ($x->sections as $section) {
+                $groupname = \local_digitalta\Sections::get_group($section->groupid)->name;
+                list($section->groupname, $section->groupname_simplified) =
+                    local_digitalta_get_element_translation('section_group', $groupname);
+                $section->content = strip_tags($section->content);
+                $sections[$section->groupname_simplified] = $section;
+            }
+
+            $x->sections = $sections;
+            $experiences[] = $x;
+        }
+        return $experiences;
+    }
+
     public static function experiences_get_by_pagination_returns() {
         return new external_single_structure([
+            'pagenumber' => new external_value(PARAM_INT, 'page number', VALUE_REQUIRED),
             'data' => new external_multiple_structure(
                 new external_single_structure([
                     "id" => new external_value(PARAM_INT, 'id', VALUE_REQUIRED),
@@ -261,6 +268,7 @@ class external_experiences_get_by_pagination extends external_api
                     ])
                 ])
             ),
+            'pages' => new external_value(PARAM_INT, 'pages', VALUE_REQUIRED),
             "viewurl" => new external_value(PARAM_TEXT, 'view url', VALUE_REQUIRED)
         ]);
     }
