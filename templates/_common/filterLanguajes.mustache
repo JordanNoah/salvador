@@ -1,9 +1,9 @@
 <div class="input-group-prepend">
     <label class="input-group-text" for="inputGroupSelect01">Lenguaje</label>
 </div>
-<select class="custom-select" id="inputGroupSelect01">
+<select class="custom-select filterLanguajeSelect" id="inputGroupSelect01">
     <option selected>Choose...</option>
     {{#languajes}}
-    <option value="{{.}}">{{.}}</option>
+    <option value="{{.}}" class="enable">{{.}}</option>
     {{/languajes}}
 </select>

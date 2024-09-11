@@ -1,5 +1,7 @@
-{{#users}}
-    <div class="p-2">
-        {{fullname}}
-    </div>
-{{/users}}
+<ul class="autocomplete-suggestions list-group list-group-autors" id="list-group-autors" style="margin-left: 5px">
+    {{#users}}
+        <li class="list-group-item autor-item enable" attr-id-user="{{id}}" attr-name="{{fullname}}">
+            {{fullname}}
+        </li>
+    {{/users}}
+</ul>

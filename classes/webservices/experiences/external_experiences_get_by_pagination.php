@@ -23,12 +23,14 @@ class external_experiences_get_by_pagination extends external_api
 
         $totalPages = 0;
         $filters = json_decode($filters, true);
-
         $experiences = array();
         if (count($filters) > 0) {
             $tags = [];
             $themes = [];
             $authors = [];
+            $langs = [];
+            $authorsToSearch = null;
+
             for ($i = 0; $i < count($filters); $i++) {
                 $filter = $filters[$i];
                 if ($filter["type"] == "tag"){
@@ -37,6 +39,8 @@ class external_experiences_get_by_pagination extends external_api
                     $themes[] = '"'.$filter["value"].'"';
                 }else if ($filter["type"] == "author"){
                     $authors[] = '"'.$filter["value"].'"';
+                }else if ($filter["type"] == "languaje"){
+                    $langs[] = '"'.$filter["value"].'"';
                 }
             }
 
@@ -74,19 +78,13 @@ class external_experiences_get_by_pagination extends external_api
 
             if(count($authors) > 0){
                 $authorsToSearch = '(' . implode(', ', $authors) . ')';
-                $authorsExperiences = $DB->get_records_sql(
-                    "SELECT * FROM mdl_user where id IN ".$authorsToSearch
-                );
-                $authorsId = array_keys($authorsExperiences);
-                for ($i = 0; $i < count($authorsId); $i++) {
-                    if (strlen($havingSum) == 0){
-                        $havingSum .= "HAVING SUM(CASE WHEN modifier = 3 AND modifierinstance = ".$authorsId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
-                    }else{
-                        $havingSum .= "SUM(CASE WHEN modifier = 3 AND modifierinstance = ".$authorsId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
-                    }
-                }
             }
 
+            if (count($langs) > 0){
+                $langsToSearch = '(' . implode(', ', $langs) . ')';
+            }
+
+            error_log($langsToSearch);
             $query = preg_replace('/\s+AND\s*$/', '', $havingSum);
 
             $contextDigitalTa = $DB->get_records_sql(
@@ -95,20 +93,53 @@ class external_experiences_get_by_pagination extends external_api
                             WHERE componentinstance IN (SELECT componentinstance FROM FilteredComponentInstances) GROUP BY componentinstance;'
             );
 
-            $totalRows = $DB->get_record_sql(
-                'WITH FilteredComponentInstances AS ( SELECT componentinstance FROM mdl_digitalta_context GROUP BY componentinstance '.$query.')
-                     SELECT COUNT(*) AS total_componentinstances FROM FilteredComponentInstances;'
-            )->total_componentinstances;
-
-            $totalPages = ceil($totalRows / $limit);
-
             $componentInstanceIds = array_keys($contextDigitalTa);
+
+            error_log(json_encode($componentInstanceIds));
 
             if (count($componentInstanceIds) > 0){
                 $componentsInstanceIdsToSearch = '(' . implode(', ', $componentInstanceIds) . ')';
+                $sqlComponent = 'SELECT * FROM mdl_digitalta_experiences 
+                            where id IN '.$componentsInstanceIdsToSearch.' 
+                            and visible = 1';
+
+                if (count($authors) > 0){
+                    for ($i = 0; $i < count($authors); $i++) {
+                        $sqlComponent .= ' and userid = '.$authors[$i];
+                    }
+                }
+
+                if (count($langs) > 0){
+                    for ($i = 0; $i < count($langs); $i++) {
+                        $sqlComponent .= ' and lang like '.$langs[$i];
+                    }
+                }
+
+                $sqlComponent .= ' limit '.$limit.' offset '.(($pagenumber-1) * $limit);
+
                 $components = array_values($DB->get_records_sql(
-                    'SELECT * FROM mdl_digitalta_experiences where id IN '.$componentsInstanceIdsToSearch
+                    $sqlComponent
                 ));
+
+                //total rows
+
+                $sqlTotalRows = 'SELECT COUNT(*) AS total  FROM mdl_digitalta_experiences where id IN '.$componentsInstanceIdsToSearch;
+                if (count($authors) > 0){
+                    for ($i = 0; $i < count($authors); $i++) {
+                        $sqlTotalRows .= ' and userid = '.$authors[$i];
+                    }
+                }
+
+                if (count($langs) > 0){
+                    for ($i = 0; $i < count($langs); $i++) {
+                        $sqlTotalRows .= ' and lang like '.$langs[$i];
+                    }
+                }
+                $totalRows = $DB->get_record_sql(
+                    $sqlTotalRows
+                )->total;
+
+                $totalPages = ceil($totalRows / $limit);
 
                 $experiences = self::getExperiences($components);
             }
