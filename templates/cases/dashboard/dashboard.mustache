@@ -32,8 +32,71 @@
     </section>
     <!--Section: Cases-->
     <section data-section-name="digitalta-cases-list" class="mb-4">
-        <div class="container-fluid d-flex">
-            {{> local_digitalta/cases/dashboard/case-list}}
+        <div class="container-fluid d-flex my-2">
+            <!--Filter chips-->
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary dropdown-toggle custom-dropdown-toggle" style="height: fit-content" data-toggle="dropdown" data-display="static" aria-expanded="false">
+                    <span>Filtros</span>
+                    <i class="fa fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right px-2" id="filters-menu">
+                    <div class="input-group mb-3 filterTheme" style="width: 300px" id="filterThemeSelect"></div>
+
+                    {{> local_digitalta/_common/filterTag }}
+
+                    {{> local_digitalta/_common/filterAutors }}
+
+                    <div class="input-group mb-3" style="width: 300px" id="filterLanguajeSelect"></div>
+                </div>
+            </div>
+
+            <div id="filtersList">
+                {{> local_digitalta/_common/filterList }}
+            </div>
+            <!--Filter chips-->
+        </div>
+        <div class="container-fluid d-flex my-2" id="list-cases-body"></div>
+        <div class="d-flex justify-content-center" id="digital-pagination">
+            {{> local_digitalta/_common/pagination }}
         </div>
     </section>
 </div>
+
+{{#js}}
+    require(['local_digitalta/cases/provider'],function(Provider){
+    Provider.init()
+    })
+{{/js}}
+
+<style>
+    .custom-dropdown-toggle::after {
+        display: none; /* Esto oculta el ícono de flecha del dropdown */
+    }
+    .autocomplete-suggestions {
+        border: 1px solid #ccc;
+        max-height: 167px;
+        overflow-y: auto;
+        list-style: none;
+        padding: 0;
+        margin-top: 0;
+        margin-left: 310px;
+        background-color: white;
+        position: absolute;
+        z-index: 1000;
+        width: 100%;
+    }
+
+    .autocomplete-suggestions li {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .list-group-item {
+        border: none!important;
+    }
+
+    .autocomplete-suggestions li:hover {
+        background-color: #f0f0f0;
+    }
+</style>
+

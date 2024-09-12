@@ -60,7 +60,7 @@ class Cases
 
     /**
      * Get a case by this id
-     * 
+     *
      * @param  int            $id The id of the case
      * @param  bool           $extra_fields If true, it will return the extra fields
      * @return StudyCase|null The case
@@ -73,7 +73,7 @@ class Cases
 
     /**
      * Get cases
-     * 
+     *
      * @param  array $filters The filters to apply
      * @param  bool  $extra_fields If true, it will return the extra fields
      * @return array The cases
@@ -107,13 +107,15 @@ class Cases
 
     /**
      * Get extra fields for cases
-     * 
+     *
      * @param  object $case The case
      * @return object The case with extra fields
      */
     public static function get_extra_fields($case)
     {
         global $PAGE;
+        $context = \context_system::instance();
+        $PAGE->set_context($context);
         // Get the user data
         $user = get_complete_user_data("id", $case->userid);
         $picture = new \user_picture($user);
@@ -264,12 +266,12 @@ class Cases
             Tags::update_tags('case', $record->id, $case->tags);
         }
         // Return the case identifier
-        return $case->id;    
+        return $case->id;
     }
 
     /**
     * Prepare metadata record for database insertion.
-    * 
+    *
     * @param  object    $case The case object.
     * @param  object    $current_case The current case object.
     * @return object    The prepared metadata record.
@@ -311,7 +313,7 @@ class Cases
 
     /**
      * Validate the metadata of an case.
-     * 
+     *
      * @param  object $case The case object to check.
      */
     private static function validate_metadata(object $case)

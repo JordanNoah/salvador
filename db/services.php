@@ -43,6 +43,15 @@ $functions = [
         'requirelogin' => true,
         'ajax'        => true,
     ],
+    'local_digitalta_cases_get_paginated' => [
+        'classname'   => 'external_cases_get_by_pagination',
+        'methodname'  => 'cases_get_by_pagination',
+        'classpath'   => 'local/digitalta/classes/webservices/cases/external_cases_get_by_pagination.php',
+        'description' => 'Get cases by pagination',
+        'type'        => 'read',
+        'requirelogin' => true,
+        'ajax'        => true,
+    ],
 
     // Context
     'local_digitalta_context_upsert' => [

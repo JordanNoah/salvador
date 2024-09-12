@@ -84,18 +84,16 @@ class external_experiences_get_by_pagination extends external_api
                 $langsToSearch = '(' . implode(', ', $langs) . ')';
             }
 
-            error_log($langsToSearch);
             $query = preg_replace('/\s+AND\s*$/', '', $havingSum);
 
             $contextDigitalTa = $DB->get_records_sql(
-                'WITH FilteredComponentInstances AS ( SELECT componentinstance FROM mdl_digitalta_context GROUP BY componentinstance '.$query.' )
+                'WITH FilteredComponentInstances AS ( SELECT componentinstance FROM mdl_digitalta_context WHERE component = 1 GROUP BY componentinstance '.$query.' )
                         SELECT componentinstance, GROUP_CONCAT(modifier) AS modifiers, GROUP_CONCAT(modifierinstance) AS modifierinstances FROM mdl_digitalta_context
                             WHERE componentinstance IN (SELECT componentinstance FROM FilteredComponentInstances) GROUP BY componentinstance;'
             );
 
             $componentInstanceIds = array_keys($contextDigitalTa);
 
-            error_log(json_encode($componentInstanceIds));
 
             if (count($componentInstanceIds) > 0){
                 $componentsInstanceIdsToSearch = '(' . implode(', ', $componentInstanceIds) . ')';

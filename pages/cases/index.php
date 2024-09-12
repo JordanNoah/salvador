@@ -45,7 +45,7 @@ echo $OUTPUT->header();
 $publishedcases = Cases::get_cases(['status' => 1]);
 $owncases = Cases::get_cases(['userid' => $USER->id]);
 $cases = array_values(array_merge($publishedcases, $owncases));
-
+error_log(count($cases));
 // Get the user data
 $user = get_complete_user_data('id', $USER->id);
 $picture = new user_picture($user);
