@@ -21,17 +21,21 @@ const getAndRenderFilters = async() => {
     const themesRequest = {methodname: 'local_digitalta_themes_get', args: {}};
     const tagsRequest = {methodname: 'local_digitalta_tags_get', args: {}};
     const languajesRequest = {methodname: 'local_digitalta_experiences_get_used_langs', args: {}};
+    const resourcesTypeRequest = {methodname: 'local_digitalta_resources_types_get', args: {}};
 
     const themesResponse = await Ajax.call([themesRequest])[0];
     const tagsResponse = await Ajax.call([tagsRequest])[0];
     const languajesResponse = await Ajax.call([languajesRequest])[0];
-
+    const resourcesTypeResponse = await Ajax.call([resourcesTypeRequest])[0];
     // eslint-disable-next-line max-len
     const templateFilterThemes = await Templates.renderForPromise('local_digitalta/_common/filterTheme', {"themes": themesResponse});
     // eslint-disable-next-line max-len
     const templateFilterLanguajes = await Templates.renderForPromise('local_digitalta/_common/filterLanguajes', {"languajes": languajesResponse});
+    const templateFilterTypes = await Templates.renderForPromise('local_digitalta/_common/filterResourceTypes',{"types":resourcesTypeResponse.types});
+
     Templates.replaceNodeContents("#filterThemeSelect", templateFilterThemes.html, templateFilterThemes.js);
     Templates.replaceNodeContents("#filterLanguajeSelect", templateFilterLanguajes.html, templateFilterLanguajes.js);
+    Templates.replaceNodeContents("#filterResourceSelect", templateFilterTypes.html, templateFilterTypes.js);
 
     const availableTags = tagsResponse.map(function(tag) {
         return tag.name;
@@ -49,6 +53,18 @@ const getAndRenderFilters = async() => {
 };
 
 const setActionsFilters = () => {
+    $(document).on("change","#filterResourceType", function() {
+        const selectedId = $("option:selected.enable", this).val();
+        const selectedText = $("option:selected.enable", this).text();
+        if (selectedText.length > 0) {
+            const element = $("option:selected.enable", this);
+            element.addClass('disabled');
+            element.removeClass('enable');
+            const filterObject = {"type": "resource", "value": {id: selectedId, name: selectedText}};
+            setFilter(filterObject);
+        }
+    });
+
     $(document).on("click", "li.page-item.page-link.page", function() {
         const clickedPage = $(this).attr('attr-page');
         if (selectedPage !== clickedPage) {
@@ -179,7 +195,7 @@ const setFilter = (filterObject) => {
 const renderFilters = () => {
     getResources();
     const filtersMap = filters.map((filter) => {
-        if (filter.type === 'author') {
+        if (filter.type === 'author' || filter.type === 'resource') {
             return {type: filter.type, value: filter.value.name};
         } else {
             return {type: filter.type, value: filter.value};
@@ -192,7 +208,7 @@ const renderFilters = () => {
 
 const getResources = async() => {
     const mappedFilters = filters.map((filter) => {
-        if (filter.type === 'author') {
+        if (filter.type === 'author' || filter.type === 'resource') {
             return {type: filter.type, value: filter.value.id};
         }
         return filter;
@@ -210,7 +226,6 @@ const getResources = async() => {
         }).catch((error) => displayException(error));
     }else{
         let pagination = generatePagination(resourcesResponse.pages, selectedPage);
-        console.log(pagination);
         // eslint-disable-next-line max-len
         const resourcesList = await Templates.renderForPromise('local_digitalta/resources/dashboard/resource-list', {resources: resourcesResponse});
         const paginationList = await Templates.renderForPromise('local_digitalta/_common/pagination', {pages: pagination});

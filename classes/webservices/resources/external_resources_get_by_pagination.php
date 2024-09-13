@@ -28,7 +28,110 @@ class external_resources_get_by_pagination extends external_api
         $resources = array();
 
         if (count($filters) > 0) {
+            $resourceTypes = [];
+            $themes = [];
+            $tags = [];
+            $authors = [];
+            $langs = [];
 
+
+            for ($i = 0; $i < count($filters); $i++) {
+                $filter = $filters[$i];
+                if ($filter["type"] == "tag"){
+                    $tags[] = '"'.$filter["value"].'"';
+                }else if ($filter["type"] == "theme"){
+                    $themes[] = '"'.$filter["value"].'"';
+                }else if ($filter["type"] == "author"){
+                    $authors[] = '"'.$filter["value"].'"';
+                }else if ($filter["type"] == "languaje"){
+                    $langs[] = '"'.$filter["value"].'"';
+                }else if ($filter["type"] == "resource"){
+                    $resourceTypes[] = '"'.$filter["value"].'"';
+                }
+
+                $havingSum = "";
+
+                if (count($themes) > 0) {
+                    $themesToSearch = '(' . implode(', ', $themes) . ')';
+                    $themesExperience = $DB->get_records_sql(
+                        "SELECT * FROM mdl_digitalta_themes where name IN ".$themesToSearch
+                    );
+                    $themesId = array_keys($themesExperience);
+                    for ($i = 0; $i < count($themesId); $i++) {
+                        if (strlen($havingSum) == 0){
+                            $havingSum .= "HAVING SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themesId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                        }else{
+                            $havingSum .= "SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themesId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                        }
+                    }
+                }
+
+                if (count($tags) > 0){
+                    $tagsToSearch = '(' . implode(', ', $tags) . ')';
+                    $tagsExperiences = $DB->get_records_sql(
+                        "SELECT * FROM mdl_digitalta_tags where name IN ".$tagsToSearch
+                    );
+                    $tagsId = array_keys($tagsExperiences);
+                    for ($i = 0; $i < count($tagsId); $i++) {
+                        if (strlen($havingSum) == 0){
+                            $havingSum .= "HAVING SUM(CASE WHEN modifier = 2 AND modifierinstance = ".$tagsId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                        }else{
+                            $havingSum .= "SUM(CASE WHEN modifier = 2 AND modifierinstance = ".$tagsId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                        }
+                    }
+                }
+
+                $query = preg_replace('/\s+AND\s*$/', '', $havingSum);
+
+                $contextDigitalTa = $DB->get_records_sql(
+                    'WITH FilteredComponentInstances AS ( SELECT componentinstance FROM mdl_digitalta_context where component = 2 GROUP BY componentinstance '.$query.' )
+                        SELECT componentinstance, GROUP_CONCAT(modifier) AS modifiers, GROUP_CONCAT(modifierinstance) AS modifierinstances FROM mdl_digitalta_context
+                            WHERE componentinstance IN (SELECT componentinstance FROM FilteredComponentInstances) GROUP BY componentinstance;'
+                );
+
+                $componentInstanceIds = array_keys($contextDigitalTa);
+
+                if (count($componentInstanceIds) === 0) {
+                    $componentsInstanceIdsToSearch = '(' . implode(', ', $componentInstanceIds) . ')';
+
+                    $sqlComponent = 'SELECT * FROM mdl_digitalta_cases 
+                            where id IN '.$componentsInstanceIdsToSearch.' 
+                            and status = 1';
+
+                    $sqlTotalRows = 'SELECT COUNT(*) AS total  FROM mdl_digitalta_cases where id IN '.$componentsInstanceIdsToSearch;
+
+                    if (count($authors) > 0){
+                        for ($i = 0; $i < count($authors); $i++) {
+                            $sqlComponent .= ' and userid = '.$authors[$i];
+                            $sqlTotalRows .= ' and userid = '.$authors[$i];
+                        }
+                    }
+
+                    if (count($langs) > 0){
+                        for ($i = 0; $i < count($langs); $i++) {
+                            $sqlComponent .= ' and lang like '.$langs[$i];
+                            $sqlTotalRows .= ' and lang like '.$langs[$i];
+                        }
+                    }
+
+                    if (count($resourceTypes) > 0){
+                        for ($i = 0; $i < count($resourceTypes); $i++) {
+                            $sqlComponent .= ' and type = '.$resourceTypes[$i];
+                            $sqlTotalRows .= ' and type = '.$resourceTypes[$i];
+                        }
+                    }
+
+                    $sqlComponent .= ' limit '.$limit.' offset '.(($pagenumber-1) * $limit);
+
+                    $components = array_values($DB->get_records_sql($sqlComponent));
+
+                    $totalRows = $DB->get_record_sql($sqlTotalRows)->total;
+
+                    $totalPages = ceil($totalRows / $limit);
+
+                    $resources = self::get_resources($components);
+                }
+            }
         } else {
             $components = array_values(
                 $DB->get_records_sql(

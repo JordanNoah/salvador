@@ -1,0 +1,9 @@
+<div class="input-group-prepend">
+    <label class="input-group-text" for="inputGroupSelect01">Tipos</label>
+</div>
+<select class="custom-select filterResourceType" id="filterResourceType">
+    <option selected class="disabled">Choose...</option>
+    {{#types}}
+        <option class="enable" value="{{id}}">{{name}}</option>
+    {{/types}}
+</select>
