@@ -91,7 +91,7 @@ class external_resources_get_by_pagination extends external_api
 
                 $componentInstanceIds = array_keys($contextDigitalTa);
 
-                if (count($componentInstanceIds) === 0) {
+                if (count($componentInstanceIds) > 0) {
                     $componentsInstanceIdsToSearch = '(' . implode(', ', $componentInstanceIds) . ')';
 
                     $sqlComponent = 'SELECT * FROM mdl_digitalta_cases 

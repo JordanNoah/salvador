@@ -81,6 +81,8 @@ const setActionsFilters = () => {
             element.removeClass('enable');
             const filterObject = {"type": "theme", "value": selectedText};
             setFilter(filterObject);
+            $(".filterThemeSelect option:first").prop("selected", true);
+            $(element).prop('disabled', true);
         }
     });
 
@@ -120,6 +122,8 @@ const setActionsFilters = () => {
             element.removeClass('enable');
             const filterObject = {"type": "languaje", "value": selectedText};
             setFilter(filterObject);
+            $(".filterLanguajeSelect option:first").prop("selected", true);
+            $(element).prop('disabled', true);
         }
     });
 
@@ -160,11 +164,15 @@ const removeFilter = (filterObject) => {
             let option = $('option[value="'+filterObject.value+'"].disabled', themeSelect);
             option.removeClass('disabled');
             option.addClass('enable');
+            $("#filterThemes option:first").prop("selected", true);
+            $(option).prop('disabled', false);
         } else if (filterObject.type === 'languaje') {
             let langSelect = $(".filterLanguajeSelect");
             let option = $('option[value="'+filterObject.value+'"].disabled', langSelect);
             option.removeClass('disabled');
             option.addClass('enable');
+            $(".filterLanguajeSelect option:first").prop("selected", true);
+            $(option).prop('disabled', false);
         }
         filters.splice(index, 1);
         selectedPage = 1;

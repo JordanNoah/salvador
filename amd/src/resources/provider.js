@@ -62,6 +62,8 @@ const setActionsFilters = () => {
             element.removeClass('enable');
             const filterObject = {"type": "resource", "value": {id: selectedId, name: selectedText}};
             setFilter(filterObject);
+            $("#filterResourceType option:first").prop("selected", true);
+            $(element).prop('disabled', true);
         }
     });
 
@@ -96,6 +98,8 @@ const setActionsFilters = () => {
             element.removeClass('enable');
             const filterObject = {"type": "theme", "value": selectedText};
             setFilter(filterObject);
+            $(".filterThemeSelect option:first").prop("selected", true);
+            $(element).prop('disabled', true);
         }
     });
 
@@ -135,6 +139,8 @@ const setActionsFilters = () => {
             element.removeClass('enable');
             const filterObject = {"type": "languaje", "value": selectedText};
             setFilter(filterObject);
+            $(".filterLanguajeSelect option:first").prop("selected", true);
+            $(element).prop('disabled', true);
         }
     });
 
@@ -161,7 +167,7 @@ const setActionsFilters = () => {
 
 const removeFilter = (filterObject) => {
     const index = filters.findIndex((filter) => {
-        if (filter.type === 'author') {
+        if (filter.type === 'author' || filter.type === 'resource') {
             return filter.type === filterObject.type && filter.value.name === filterObject.value;
         } else {
             return filter.type === filterObject.type && filter.value === filterObject.value;
@@ -174,11 +180,22 @@ const removeFilter = (filterObject) => {
             let option = $('option[value="'+filterObject.value+'"].disabled', themeSelect);
             option.removeClass('disabled');
             option.addClass('enable');
+            $("#filterThemes option:first").prop("selected", true);
+            $(option).prop('disabled', false);
         } else if (filterObject.type === 'languaje') {
             let langSelect = $(".filterLanguajeSelect");
             let option = $('option[value="'+filterObject.value+'"].disabled', langSelect);
             option.removeClass('disabled');
             option.addClass('enable');
+            $(".filterLanguajeSelect option:first").prop("selected", true);
+            $(option).prop('disabled', false);
+        } else if (filterObject.type === 'resource') {
+            let resourceSelect = $("#filterResourceType");
+            let option = $('option[value="'+filters[index].value.id+'"].disabled', resourceSelect);
+            option.removeClass('disabled');
+            option.addClass('enable');
+            $("#filterResourceType option:first").prop("selected", true);
+            $(option).prop('disabled', false);
         }
         filters.splice(index, 1);
         selectedPage = 1;
