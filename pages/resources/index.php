@@ -49,6 +49,8 @@ $resources = array_map(function ($resource) {
     return $resource;
 }, $resources);
 
+error_log(json_encode($resources));
+
 echo $OUTPUT->header();
 
 $template_context = [

@@ -207,6 +207,15 @@ $functions = [
         'requirelogin' => true,
         'ajax'        => true,
     ],
+    'local_digitalta_resources_get_by_pagination' => [
+        'classname'   => 'external_resources_get_by_pagination',
+        'methodname'  => 'resources_get_by_pagination',
+        'classpath'   => 'local/digitalta/classes/webservices/resources/external_resources_get_by_pagination.php',
+        'description' => 'get resources',
+        'type'        => 'read',
+        'requirelogin' => true,
+        'ajax'        => true,
+    ],
     'local_digitalta_resources_types_get' => [
         'classname'   => 'external_resources_types_get',
         'methodname'  => 'resources_types_get',
