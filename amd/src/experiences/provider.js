@@ -39,7 +39,7 @@ export const init = () => {
     });
 
     $(document).on("change", ".filterThemeSelect", function() {
-        //const selectedValue = $(this).val();
+        // Const selectedValue = $(this).val();
         const selectedText = $("option:selected.enable", this).text();
         if (selectedText.length > 0) {
             const element = $("option:selected.enable", this);
@@ -85,7 +85,7 @@ export const init = () => {
 
         if (response.length === 0) {
             $("#suggestionsAutors").empty();
-        }else{
+        } else {
             const authorsSuggestions = await Templates.renderForPromise('local_digitalta/_common/listAutors', {users: response});
             Templates.replaceNodeContents("#suggestionsAutors", authorsSuggestions.html, authorsSuggestions.js);
         }
@@ -126,7 +126,7 @@ export const init = () => {
 };
 
 const getExperiences = async() => {
-    //remapeamos la data por el caso especial de autores
+    // Remapeamos la data por el caso especial de autores
     const mappedFilters = filters.map((filter) => {
         if (filter.type === 'author') {
             return {type: filter.type, value: filter.value.id};
@@ -147,6 +147,7 @@ const getExperiences = async() => {
         Templates.renderForPromise('local_digitalta/_common/empty-view', response).then(({html, js}) => {
             Templates.replaceNodeContents("#list-experience-body", html, js);
         }).catch((error) => displayException(error));
+        $(".digitalta.pagination").hide();
     } else {
         let obj = {"experiences": response};
         let paginationArray = generatePagination(response.pages, selectedPage);
@@ -157,6 +158,7 @@ const getExperiences = async() => {
         const pagination = await Templates.renderForPromise('local_digitalta/_common/pagination', {"pages": paginationArray});
         Templates.replaceNodeContents("#list-experience-body", experienceList.html, experienceList.js);
         Templates.replaceNodeContents("#digital-pagination", pagination.html, pagination.js);
+        $(".digitalta.pagination").show();
     }
 };
 
@@ -224,14 +226,14 @@ const removeFilter = (filterObject) => {
     if (index > -1) {
         if (filterObject.type === 'theme') {
             let themeSelect = $("#filterThemes");
-            let option = $('option[value="'+filterObject.value+'"].disabled', themeSelect);
+            let option = $('option[value="' + filterObject.value + '"].disabled', themeSelect);
             option.removeClass('disabled');
             option.addClass('enable');
             $("#filterThemes option:first").prop("selected", true);
             $(option).prop('disabled', false);
         } else if (filterObject.type === 'languaje') {
             let langSelect = $(".filterLanguajeSelect");
-            let option = $('option[value="'+filterObject.value+'"].disabled', langSelect);
+            let option = $('option[value="' + filterObject.value + '"].disabled', langSelect);
             option.removeClass('disabled');
             option.addClass('enable');
             $(".filterLanguajeSelect option:first").prop("selected", true);

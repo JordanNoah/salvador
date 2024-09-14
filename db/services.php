@@ -52,7 +52,15 @@ $functions = [
         'requirelogin' => true,
         'ajax'        => true,
     ],
-
+    'local_digitalta_cases_get_langs' => [
+        'classname'  => 'external_cases_get_used_langs',
+        'methodname' => 'cases_get_used_langs',
+        'classpath'  => 'local/digitalta/classes/webservices/cases/external_cases_get_used_langs.php',
+        'description' => 'Get all languages used in cases',
+        'type'        => 'read',
+        'requirelogin' => true,
+        'ajax'        => true
+    ],
     // Context
     'local_digitalta_context_upsert' => [
         'classname'   => 'external_context_upsert',
@@ -251,6 +259,15 @@ $functions = [
         'type'        => 'read',
         'requirelogin' => true,
         'ajax'        => true,
+    ],
+    'local_digitalta_resources_get_used_langs' => [
+        'classname' => 'external_resources_get_used_langs',
+        'methodname'  => 'resources_get_used_langs',
+        'classpath'   => 'local/digitalta/classes/webservices/resources/external_resources_get_used_langs.php',
+        'description' => 'Get all languages used in resources',
+        'type'        => 'read',
+        'requirelogin' => true,
+        'ajax'        => true
     ],
 
     // Sections

@@ -92,7 +92,7 @@ class external_cases_get_by_pagination extends external_api
 
                 $sqlComponent = 'SELECT * FROM mdl_digitalta_cases 
                             where id IN '.$componentsInstanceIdsToSearch.' 
-                            and status = 1';
+                            and status = 1 ORDER BY timecreated DESC LIMIT '.$limit.' OFFSET '.(($pagenumber-1) * $limit);
 
                 $sqlTotalRows = 'SELECT COUNT(*) AS total  FROM mdl_digitalta_cases where id IN '.$componentsInstanceIdsToSearch;
 

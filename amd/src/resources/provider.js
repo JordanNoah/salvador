@@ -20,7 +20,7 @@ export const init = () => {
 const getAndRenderFilters = async() => {
     const themesRequest = {methodname: 'local_digitalta_themes_get', args: {}};
     const tagsRequest = {methodname: 'local_digitalta_tags_get', args: {}};
-    const languajesRequest = {methodname: 'local_digitalta_experiences_get_used_langs', args: {}};
+    const languajesRequest = {methodname: 'local_digitalta_resources_get_used_langs', args: {}};
     const resourcesTypeRequest = {methodname: 'local_digitalta_resources_types_get', args: {}};
 
     const themesResponse = await Ajax.call([themesRequest])[0];
@@ -31,7 +31,8 @@ const getAndRenderFilters = async() => {
     const templateFilterThemes = await Templates.renderForPromise('local_digitalta/_common/filterTheme', {"themes": themesResponse});
     // eslint-disable-next-line max-len
     const templateFilterLanguajes = await Templates.renderForPromise('local_digitalta/_common/filterLanguajes', {"languajes": languajesResponse});
-    const templateFilterTypes = await Templates.renderForPromise('local_digitalta/_common/filterResourceTypes',{"types":resourcesTypeResponse.types});
+    // eslint-disable-next-line max-len
+    const templateFilterTypes = await Templates.renderForPromise('local_digitalta/_common/filterResourceTypes', {"types": resourcesTypeResponse.types});
 
     Templates.replaceNodeContents("#filterThemeSelect", templateFilterThemes.html, templateFilterThemes.js);
     Templates.replaceNodeContents("#filterLanguajeSelect", templateFilterLanguajes.html, templateFilterLanguajes.js);
@@ -53,7 +54,7 @@ const getAndRenderFilters = async() => {
 };
 
 const setActionsFilters = () => {
-    $(document).on("change","#filterResourceType", function() {
+    $(document).on("change", "#filterResourceType", function() {
         const selectedId = $("option:selected.enable", this).val();
         const selectedText = $("option:selected.enable", this).text();
         if (selectedText.length > 0) {
@@ -119,7 +120,7 @@ const setActionsFilters = () => {
 
         if (response.length === 0) {
             $("#suggestionsAutors").empty();
-        }else{
+        } else {
             const authorsSuggestions = await Templates.renderForPromise('local_digitalta/_common/listAutors', {users: response});
             Templates.replaceNodeContents("#suggestionsAutors", authorsSuggestions.html, authorsSuggestions.js);
         }
@@ -177,21 +178,21 @@ const removeFilter = (filterObject) => {
     if (index > -1) {
         if (filterObject.type === 'theme') {
             let themeSelect = $("#filterThemes");
-            let option = $('option[value="'+filterObject.value+'"].disabled', themeSelect);
+            let option = $('option[value="' + filterObject.value + '"].disabled', themeSelect);
             option.removeClass('disabled');
             option.addClass('enable');
             $("#filterThemes option:first").prop("selected", true);
             $(option).prop('disabled', false);
         } else if (filterObject.type === 'languaje') {
             let langSelect = $(".filterLanguajeSelect");
-            let option = $('option[value="'+filterObject.value+'"].disabled', langSelect);
+            let option = $('option[value="' + filterObject.value + '"].disabled', langSelect);
             option.removeClass('disabled');
             option.addClass('enable');
             $(".filterLanguajeSelect option:first").prop("selected", true);
             $(option).prop('disabled', false);
         } else if (filterObject.type === 'resource') {
             let resourceSelect = $("#filterResourceType");
-            let option = $('option[value="'+filters[index].value.id+'"].disabled', resourceSelect);
+            let option = $('option[value="' + filters[index].value.id + '"].disabled', resourceSelect);
             option.removeClass('disabled');
             option.addClass('enable');
             $("#filterResourceType option:first").prop("selected", true);
@@ -238,16 +239,19 @@ const getResources = async() => {
 
     const resourcesResponse = await Ajax.call([resourcesRequest])[0];
     if (resourcesResponse.data.length === 0) {
-        Templates.renderForPromise('local_digitalta/_common/empty-view',resourcesResponse).then(({html, js}) => {
+        Templates.renderForPromise('local_digitalta/_common/empty-view', resourcesResponse).then(({html, js}) => {
             Templates.replaceNodeContents("#list-resources-body", html, js);
         }).catch((error) => displayException(error));
-    }else{
+        $(".digitalta.pagination").hide();
+    } else {
+        pages = resourcesResponse.pages;
         let pagination = generatePagination(resourcesResponse.pages, selectedPage);
         // eslint-disable-next-line max-len
         const resourcesList = await Templates.renderForPromise('local_digitalta/resources/dashboard/resource-list', {resources: resourcesResponse});
         const paginationList = await Templates.renderForPromise('local_digitalta/_common/pagination', {pages: pagination});
         Templates.replaceNodeContents("#list-resources-body", resourcesList.html, resourcesList.js);
         Templates.replaceNodeContents("#digital-pagination", paginationList.html, paginationList.js);
+        $(".digitalta.pagination").show();
     }
 };
 

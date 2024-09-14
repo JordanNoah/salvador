@@ -91,14 +91,15 @@ class external_resources_get_by_pagination extends external_api
 
                 $componentInstanceIds = array_keys($contextDigitalTa);
 
+                error_log(json_encode($contextDigitalTa));
+
                 if (count($componentInstanceIds) > 0) {
                     $componentsInstanceIdsToSearch = '(' . implode(', ', $componentInstanceIds) . ')';
 
-                    $sqlComponent = 'SELECT * FROM mdl_digitalta_cases 
-                            where id IN '.$componentsInstanceIdsToSearch.' 
-                            and status = 1';
+                    $sqlComponent = 'SELECT * FROM mdl_digitalta_resources 
+                            where id IN '.$componentsInstanceIdsToSearch;
 
-                    $sqlTotalRows = 'SELECT COUNT(*) AS total  FROM mdl_digitalta_cases where id IN '.$componentsInstanceIdsToSearch;
+                    $sqlTotalRows = 'SELECT COUNT(*) AS total  FROM mdl_digitalta_resources where id IN '.$componentsInstanceIdsToSearch;
 
                     if (count($authors) > 0){
                         for ($i = 0; $i < count($authors); $i++) {
