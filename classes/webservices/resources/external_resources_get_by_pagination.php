@@ -37,18 +37,18 @@ class external_resources_get_by_pagination extends external_api
 
             for ($i = 0; $i < count($filters); $i++) {
                 $filter = $filters[$i];
-                if ($filter["type"] == "tag"){
-                    $tags[] = '"'.$filter["value"].'"';
-                }else if ($filter["type"] == "theme"){
-                    $themes[] = '"'.$filter["value"].'"';
-                }else if ($filter["type"] == "author"){
-                    $authors[] = '"'.$filter["value"].'"';
-                }else if ($filter["type"] == "languaje"){
-                    $langs[] = '"'.$filter["value"].'"';
-                }else if ($filter["type"] == "resource"){
-                    $resourceTypes[] = '"'.$filter["value"].'"';
+                if ($filter["type"] == "tag") {
+                    $tags[] = '"' . $filter["value"] . '"';
+                } else if ($filter["type"] == "theme") {
+                    $themes[] = '"' . $filter["value"] . '"';
+                } else if ($filter["type"] == "author") {
+                    $authors[] = '"' . $filter["value"] . '"';
+                } else if ($filter["type"] == "languaje") {
+                    $langs[] = '"' . $filter["value"] . '"';
+                } else if ($filter["type"] == "resource") {
+                    $resourceTypes[] = '"' . $filter["value"] . '"';
                 }
-
+            }
                 $havingSum = "";
 
                 if (count($themes) > 0) {
@@ -91,38 +91,36 @@ class external_resources_get_by_pagination extends external_api
 
                 $componentInstanceIds = array_keys($contextDigitalTa);
 
-                error_log(json_encode($contextDigitalTa));
-
                 if (count($componentInstanceIds) > 0) {
                     $componentsInstanceIdsToSearch = '(' . implode(', ', $componentInstanceIds) . ')';
 
                     $sqlComponent = 'SELECT * FROM mdl_digitalta_resources 
-                            where id IN '.$componentsInstanceIdsToSearch;
+                            where id IN ' . $componentsInstanceIdsToSearch . ' ORDER BY timecreated DESC';
 
-                    $sqlTotalRows = 'SELECT COUNT(*) AS total  FROM mdl_digitalta_resources where id IN '.$componentsInstanceIdsToSearch;
+                    $sqlTotalRows = 'SELECT COUNT(*) AS total  FROM mdl_digitalta_resources where id IN ' . $componentsInstanceIdsToSearch;
 
-                    if (count($authors) > 0){
+                    if (count($authors) > 0) {
                         for ($i = 0; $i < count($authors); $i++) {
-                            $sqlComponent .= ' and userid = '.$authors[$i];
-                            $sqlTotalRows .= ' and userid = '.$authors[$i];
+                            $sqlComponent .= ' and userid = ' . $authors[$i];
+                            $sqlTotalRows .= ' and userid = ' . $authors[$i];
                         }
                     }
 
-                    if (count($langs) > 0){
+                    if (count($langs) > 0) {
                         for ($i = 0; $i < count($langs); $i++) {
-                            $sqlComponent .= ' and lang like '.$langs[$i];
-                            $sqlTotalRows .= ' and lang like '.$langs[$i];
+                            $sqlComponent .= ' and lang like ' . $langs[$i];
+                            $sqlTotalRows .= ' and lang like ' . $langs[$i];
                         }
                     }
 
-                    if (count($resourceTypes) > 0){
+                    if (count($resourceTypes) > 0) {
                         for ($i = 0; $i < count($resourceTypes); $i++) {
-                            $sqlComponent .= ' and type = '.$resourceTypes[$i];
-                            $sqlTotalRows .= ' and type = '.$resourceTypes[$i];
+                            $sqlComponent .= ' and type = ' . $resourceTypes[$i];
+                            $sqlTotalRows .= ' and type = ' . $resourceTypes[$i];
                         }
                     }
 
-                    $sqlComponent .= ' limit '.$limit.' offset '.(($pagenumber-1) * $limit);
+                    $sqlComponent .= ' limit ' . $limit . ' offset ' . (($pagenumber - 1) * $limit);
 
                     $components = array_values($DB->get_records_sql($sqlComponent));
 
@@ -132,7 +130,6 @@ class external_resources_get_by_pagination extends external_api
 
                     $resources = self::get_resources($components);
                 }
-            }
         } else {
             $components = array_values(
                 $DB->get_records_sql(
