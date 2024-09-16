@@ -106,8 +106,7 @@ class external_cases_get_by_pagination extends external_api
                 }
 
                 $sqlComponent .= ' ORDER BY timecreated DESC limit '.$limit.' offset '.(($pagenumber-1) * $limit);
-                echo $sqlComponent;
-                die();
+
                 $components = array_values($DB->get_records_sql(
                     $sqlComponent
                 ));
