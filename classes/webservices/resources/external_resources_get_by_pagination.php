@@ -94,11 +94,11 @@ class external_resources_get_by_pagination extends external_api
                         $sqlComponent .= '( ';
                         $sqlTotalRows .= '( ';
                     }
-                    $sqlComponent .= 'path like "%id='.$componentInstanceIds[$i].'%" AND ';
-                    $sqlTotalRows .= 'path like "%id='.$componentInstanceIds[$i].'%" AND ';
+                    $sqlComponent .= 'path like "%id='.$componentInstanceIds[$i].'%" OR ';
+                    $sqlTotalRows .= 'path like "%id='.$componentInstanceIds[$i].'%" OR ';
                     if($i+1 == count($componentInstanceIds)){
-                        $sqlComponent = preg_replace('/\s+AND\s*$/', '', $sqlComponent);
-                        $sqlTotalRows = preg_replace('/\s+AND\s*$/', '', $sqlTotalRows);
+                        $sqlComponent = preg_replace('/\s+OR\s*$/', '', $sqlComponent);
+                        $sqlTotalRows = preg_replace('/\s+OR\s*$/', '', $sqlTotalRows);
                         $sqlComponent .= ' )';
                         $sqlTotalRows .= ' )';
                     }
