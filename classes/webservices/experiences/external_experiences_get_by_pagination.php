@@ -36,7 +36,7 @@ class external_experiences_get_by_pagination extends external_api
                 if ($filter["type"] == "tag"){
                     $tags[] = '"'.$filter["value"].'"';
                 }else if ($filter["type"] == "theme"){
-                    $themes[] = '"'.$filter["value"].'"';
+                    $themes[] = $filter["value"];
                 }else if ($filter["type"] == "author"){
                     $authors[] = '"'.$filter["value"].'"';
                 }else if ($filter["type"] == "languaje"){
@@ -47,16 +47,11 @@ class external_experiences_get_by_pagination extends external_api
             $havingSum = "";
 
             if (count($themes) > 0){
-                $themesToSearch = '(' . implode(', ', $themes) . ')';
-                $themesExperience = $DB->get_records_sql(
-                    "SELECT * FROM mdl_digitalta_themes where name IN ".$themesToSearch
-                );
-                $themesId = array_keys($themesExperience);
-                for ($i = 0; $i < count($themesId); $i++) {
+                for ($i = 0; $i < count($themes); $i++) {
                     if (strlen($havingSum) == 0){
-                        $havingSum .= "HAVING SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themesId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                        $havingSum .= "HAVING SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themes[$i]." THEN 1 ELSE 0 END) > 0 AND ";
                     }else{
-                        $havingSum .= "SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themesId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                        $havingSum .= "SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themes[$i]." THEN 1 ELSE 0 END) > 0 AND ";
                     }
                 }
             }
