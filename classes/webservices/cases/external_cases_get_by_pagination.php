@@ -37,7 +37,7 @@ class external_cases_get_by_pagination extends external_api
                 if ($filter["type"] == "tag"){
                     $tags[] = '"'.$filter["value"].'"';
                 }else if ($filter["type"] == "theme"){
-                    $themes[] = '"'.$filter["value"].'"';
+                    $themes[] = $filter["value"];
                 }else if ($filter["type"] == "author"){
                     $authors[] = '"'.$filter["value"].'"';
                 }else if ($filter["type"] == "languaje"){
@@ -48,16 +48,11 @@ class external_cases_get_by_pagination extends external_api
             $havingSum = "";
 
             if (count($themes) > 0){
-                $themesToSearch = '(' . implode(', ', $themes) . ')';
-                $themesExperience = $DB->get_records_sql(
-                    "SELECT * FROM mdl_digitalta_themes where name IN ".$themesToSearch
-                );
-                $themesId = array_keys($themesExperience);
-                for ($i = 0; $i < count($themesId); $i++) {
+                for ($i = 0; $i < count($themes); $i++) {
                     if (strlen($havingSum) == 0){
-                        $havingSum .= "HAVING SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themesId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                        $havingSum .= "HAVING SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themes[$i]." THEN 1 ELSE 0 END) > 0 AND ";
                     }else{
-                        $havingSum .= "SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themesId[$i]." THEN 1 ELSE 0 END) > 0 AND ";
+                        $havingSum .= "SUM(CASE WHEN modifier = 1 AND modifierinstance = ".$themes[$i]." THEN 1 ELSE 0 END) > 0 AND ";
                     }
                 }
             }
@@ -92,7 +87,7 @@ class external_cases_get_by_pagination extends external_api
 
                 $sqlComponent = 'SELECT * FROM mdl_digitalta_cases 
                             where id IN '.$componentsInstanceIdsToSearch.' 
-                            and status = 1 ORDER BY timecreated DESC LIMIT '.$limit.' OFFSET '.(($pagenumber-1) * $limit);
+                            and status = 1';
 
                 $sqlTotalRows = 'SELECT COUNT(*) AS total  FROM mdl_digitalta_cases where id IN '.$componentsInstanceIdsToSearch;
 
@@ -110,8 +105,9 @@ class external_cases_get_by_pagination extends external_api
                     }
                 }
 
-                $sqlComponent .= ' limit '.$limit.' offset '.(($pagenumber-1) * $limit);
-
+                $sqlComponent .= ' ORDER BY timecreated DESC limit '.$limit.' offset '.(($pagenumber-1) * $limit);
+                echo $sqlComponent;
+                die();
                 $components = array_values($DB->get_records_sql(
                     $sqlComponent
                 ));
