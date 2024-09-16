@@ -91,14 +91,16 @@ class external_resources_get_by_pagination extends external_api
                 $sqlTotalRows = 'SELECT COUNT(*) AS total  FROM mdl_digitalta_resources where ';
                 for ($i = 0; $i < count($componentInstanceIds); $i++) {
                     if ($i === 0){
-                        $sqlComponent .= '(path like "%id='.$componentInstanceIds[$i].'%"';
-                        $sqlTotalRows .= 'path like "%id='.$componentInstanceIds[$i].'%"';
-                    }else if($i+1 == count($componentInstanceIds)){
-                        $sqlComponent .= ' or path like "%id='.$componentInstanceIds[$i].'%")';
-                        $sqlTotalRows .= ' or path like "%id='.$componentInstanceIds[$i].'%"';
-                    }else{
-                        $sqlComponent .= ' or path like "%id='.$componentInstanceIds[$i].'%"';
-                        $sqlTotalRows .= ' or path like "%id='.$componentInstanceIds[$i].'%"';
+                        $sqlComponent .= '( ';
+                        $sqlTotalRows .= '( ';
+                    }
+                    $sqlComponent .= 'path like "%id='.$componentInstanceIds[$i].'%" AND ';
+                    $sqlTotalRows .= 'path like "%id='.$componentInstanceIds[$i].'%" AND ';
+                    if($i+1 == count($componentInstanceIds)){
+                        $sqlComponent = preg_replace('/\s+AND\s*$/', '', $sqlComponent);
+                        $sqlTotalRows = preg_replace('/\s+AND\s*$/', '', $sqlTotalRows);
+                        $sqlComponent .= ' )';
+                        $sqlTotalRows .= ' )';
                     }
                 }
                 if (count($authors) > 0) {
