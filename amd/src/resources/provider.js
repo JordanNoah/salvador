@@ -92,12 +92,13 @@ const setActionsFilters = () => {
         }
     });
     $(document).on("change", ".filterThemeSelect", function() {
+        const selectedValue = $("option:selected.enable", this).val();
         const selectedText = $("option:selected.enable", this).text();
         if (selectedText.length > 0) {
             const element = $("option:selected.enable", this);
             element.addClass('disabled');
             element.removeClass('enable');
-            const filterObject = {"type": "theme", "value": selectedText};
+            const filterObject = {"type": "theme", "value": {id: selectedValue, name: selectedText}};
             setFilter(filterObject);
             $(".filterThemeSelect option:first").prop("selected", true);
             $(element).prop('disabled', true);
@@ -168,7 +169,7 @@ const setActionsFilters = () => {
 
 const removeFilter = (filterObject) => {
     const index = filters.findIndex((filter) => {
-        if (filter.type === 'author' || filter.type === 'resource') {
+        if (filter.type === 'author' || filter.type === 'resource' || filter.type === 'theme') {
             return filter.type === filterObject.type && filter.value.name === filterObject.value;
         } else {
             return filter.type === filterObject.type && filter.value === filterObject.value;
@@ -178,7 +179,7 @@ const removeFilter = (filterObject) => {
     if (index > -1) {
         if (filterObject.type === 'theme') {
             let themeSelect = $("#filterThemes");
-            let option = $('option[value="' + filterObject.value + '"].disabled', themeSelect);
+            let option = $('option[value="' + filters[index].value.id + '"].disabled', themeSelect);
             option.removeClass('disabled');
             option.addClass('enable');
             $("#filterThemes option:first").prop("selected", true);
@@ -213,7 +214,7 @@ const setFilter = (filterObject) => {
 const renderFilters = () => {
     getResources();
     const filtersMap = filters.map((filter) => {
-        if (filter.type === 'author' || filter.type === 'resource') {
+        if (filter.type === 'author' || filter.type === 'resource' || filter.type === 'theme') {
             return {type: filter.type, value: filter.value.name};
         } else {
             return {type: filter.type, value: filter.value};
@@ -226,7 +227,7 @@ const renderFilters = () => {
 
 const getResources = async() => {
     const mappedFilters = filters.map((filter) => {
-        if (filter.type === 'author' || filter.type === 'resource') {
+        if (filter.type === 'author' || filter.type === 'resource' || filter.type === 'theme') {
             return {type: filter.type, value: filter.value.id};
         }
         return filter;
