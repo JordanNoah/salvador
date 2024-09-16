@@ -13,7 +13,7 @@ class external_cases_get_used_langs extends external_api
     {
         global $DB;
 
-        $sql = "SELECT DISTINCT lang FROM {digitalta_cases} WHERE lang IS NOT NULL";
+        $sql = "SELECT DISTINCT lang FROM {digitalta_cases} WHERE lang IS NOT NULL and status = 1";
         $langs = array_keys($DB->get_records_sql($sql));
         return $langs;
     }
